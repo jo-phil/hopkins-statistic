@@ -1,0 +1,33 @@
+[project]
+name = "hopkins-statistic"
+version = "0.1.0"
+description = "Compute the Hopkins statistic for assessing clustering tendency and testing departure from complete spatial randomness (CSR)."
+readme = "README.md"
+authors = [{name = "Johann Philipp Gorzny"}]
+requires-python = ">=3.13"
+
+[build-system]
+requires = ["uv_build>=0.9.16,<0.10.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.19.0",
+    "ruff>=0.14.8",
+]
+
+[tool.mypy]
+files = ["src"]
+strict = true
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "COM812",   # missing-trailing-comma should not be used alongside the formatter
+    "D203",     # incorrect-blank-line-before-class conflicts with blank-line-before-class (D211)
+    "D213",     # multi-line-summary-second-line conflicts with multi-line-summary-first-line (D212)
+]
+
+[tool.commitizen]
+version_provider = "uv"
+update_changelog_on_bump = true
