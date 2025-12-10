@@ -5,6 +5,10 @@ description = "Compute the Hopkins statistic for assessing clustering tendency a
 readme = "README.md"
 authors = [{name = "Johann Philipp Gorzny"}]
 requires-python = ">=3.13"
+dependencies = [
+    "numpy>=2.3.5",
+    "scipy>=1.16.3",
+]
 
 [build-system]
 requires = ["uv_build>=0.9.16,<0.10.0"]
@@ -14,11 +18,15 @@ build-backend = "uv_build"
 dev = [
     "mypy>=1.19.0",
     "ruff>=0.14.8",
+    "scipy-stubs==1.16.3.3",
 ]
 
 [tool.mypy]
 files = ["src"]
 strict = true
+
+[tool.ruff]
+line-length = 79
 
 [tool.ruff.lint]
 select = ["ALL"]
@@ -26,7 +34,14 @@ ignore = [
     "COM812",   # missing-trailing-comma should not be used alongside the formatter
     "D203",     # incorrect-blank-line-before-class conflicts with blank-line-before-class (D211)
     "D213",     # multi-line-summary-second-line conflicts with multi-line-summary-first-line (D212)
+    "PLR2004",  # magic-value-comparison considers 2 to be a magic number
+
+    # irrelevant
+    "AIR", "ASYNC", "DJ", "FAST", "PD", "PYI",
 ]
+
+[tool.ruff.lint.pep8-naming]
+extend-ignore-names = ["X"]
 
 [tool.commitizen]
 version_provider = "uv"

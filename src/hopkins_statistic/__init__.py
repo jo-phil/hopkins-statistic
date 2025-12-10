@@ -3,3 +3,7 @@
 Compute the Hopkins statistic to test for departure from complete spatial
 randomness (CSR), commonly used to assess clustering tendency.
 """
+
+from ._statistic import HopkinsUndefinedWarning, hopkins
+
+__all__ = ["HopkinsUndefinedWarning", "hopkins"]
