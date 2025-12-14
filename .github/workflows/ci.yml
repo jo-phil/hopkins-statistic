@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: ["**"]
   pull_request:
     branches: [main]
 
@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,29 +30,17 @@ jobs:
       - name: Install the project
         run: uv sync --locked --all-extras --dev
 
-      - name: Lint
+      - name: Run linting
         run: uv run ruff check --output-format=github
 
-      - name: Format check
+      - name: Check formatting
         run: uv run ruff format --check --output-format=github
 
-      - name: Type check
+      - name: Check typing
         run: uv run mypy
 
-      - name: Build
-        run: uv build
-
-      - name: Smoke test (wheel)
-        run: >
-          uv run --isolated --no-project
-          --with dist/*.whl
-          python -c "import hopkins_statistic as hs; print(hs.__name__)"
-
-      - name: Smoke test (sdist)
-        run: >
-          uv run --isolated --no-project
-          --with dist/*.tar.gz
-          python -c "import hopkins_statistic as hs; print(hs.__name__)"
+      - name: Run tests
+        run: uv run pytest
 
       - name: Minimize uv cache
         run: uv cache prune --ci
