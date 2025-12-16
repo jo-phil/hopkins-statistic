@@ -28,6 +28,7 @@ strict = true
 
 [tool.pytest]
 addopts = ["--import-mode=importlib"]
+markers = ["slow: slow statistical tests"]
 strict = true
 
 [tool.ruff]
@@ -49,7 +50,7 @@ ignore = [
 extend-ignore-names = ["X"]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/*" = ["ANN", "D", "N802", "N803", "S101"]
+"tests/*" = ["ANN", "D", "N802", "N803", "N806", "S101"]
 
 [tool.commitizen]
 version_provider = "uv"
