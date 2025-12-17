@@ -40,42 +40,17 @@ def hopkins(
 
     """
     X = np.asarray(X, dtype=float)
-    if X.ndim != 2:
-        msg = f"X must be a 2D array of shape (n, d); got shape {X.shape}."
-        raise ValueError(msg)
 
-    n, d = X.shape
-    if n < 3:
-        msg = f"X must contain at least 3 observations; got n={n}."
-        raise ValueError(msg)
-
-    if isinstance(m, numbers.Integral):
-        if not 1 <= m <= n:
-            msg = f"m must satisfy 1 <= m <= n; got m={m}, n={n}."
-            raise ValueError(msg)
-        m = int(m)
-    elif isinstance(m, numbers.Real):
-        if not 0 < m <= 1:
-            msg = f"If m is a float, it must satisfy 0 < m <= 1; got m={m}."
-            raise ValueError(msg)
-        m = math.ceil(m * n)
-    else:
-        msg = f"m must be int or float; got {type(m).__name__}."
-        raise TypeError(msg)
-
-    power = d if power is None else power
-    if not math.isfinite(power) or power <= 0:
-        msg = f"power must be positive and finite; got power={power}."
-        raise ValueError(msg)
-
+    n, d = _validate_shape(X)
+    m = _parse_m(m, n)
+    power = _parse_power(power, d)
     rng = np.random.default_rng(rng)
 
     if not np.isfinite(X).all():
         msg = "X must contain only finite values; found NaN or inf."
         raise ValueError(msg)
 
-    lower = X.min(axis=0)
-    upper = X.max(axis=0)
+    lower, upper = X.min(axis=0), X.max(axis=0)
     if np.all(lower == upper):
         msg = "All observations in X are identical."
         warnings.warn(msg, HopkinsUndefinedWarning, stacklevel=2)
@@ -85,13 +60,61 @@ def hopkins(
     data_sample = X[rng.choice(n, size=m, replace=False)]
 
     tree = KDTree(X)
+    u = tree.query(null_sample, k=1)[0]
+    w = tree.query(data_sample, k=2)[0][:, 1]  # type: ignore[index]
 
-    u_dists, _ = tree.query(null_sample, k=1)
-    w_dists, _ = tree.query(data_sample, k=[2])  # the sample itself is in X
-    w_dists = np.ravel(w_dists)  # w_dists of shape (m, 1) due to k=[2]
+    u_sum = np.sum(u**power)
+    w_sum = np.sum(w**power)
 
-    u_sum = np.sum(u_dists**power)
-    w_sum = np.sum(w_dists**power)
-    total = u_sum + w_sum
+    return float(u_sum / (u_sum + w_sum))
 
-    return float(u_sum / total)
+
+def _validate_shape(X: np.ndarray) -> tuple[int, int]:
+    if X.ndim != 2:
+        msg = f"X must be a 2D array of shape (n, d); got shape {X.shape}."
+        raise ValueError(msg)
+
+    n, d = X.shape
+    if n < 3:
+        msg = f"X must contain at least 3 observations; got n={n}."
+        raise ValueError(msg)
+    if d < 1:
+        msg = "X must have at least 1 feature (d >= 1); got d=0."
+        raise ValueError(msg)
+
+    return n, d
+
+
+def _parse_m(m: int | float, n: int) -> int:
+    if isinstance(m, numbers.Integral) and not isinstance(m, bool):
+        if not 1 <= m <= n:
+            msg = f"m must satisfy 1 <= m <= n; got m={m}, n={n}."
+            raise ValueError(msg)
+        return int(m)
+
+    if isinstance(m, numbers.Real) and not isinstance(m, bool):
+        if not 0 < m <= 1:
+            msg = f"If m is a float, it must satisfy 0 < m <= 1; got m={m}."
+            raise ValueError(msg)
+        return math.ceil(m * n)
+
+    msg = f"m must be int or float; got {type(m).__name__}."
+    raise TypeError(msg)
+
+
+def _parse_power(power: int | float | None, d: int) -> int | float:
+    if power is None:
+        return d
+
+    if not isinstance(power, numbers.Real) or isinstance(power, bool):
+        msg = f"power must be a real number; got {type(power).__name__}."
+        raise TypeError(msg)
+
+    if not math.isfinite(power):
+        msg = f"power must be finite; got power={power}."
+        raise ValueError(msg)
+    if power <= 0:
+        msg = f"power must be positive; got power={power}."
+        raise ValueError(msg)
+
+    return power
