@@ -1,7 +1,7 @@
 [project]
 name = "hopkins-statistic"
 version = "0.1.0"
-description = "Compute the Hopkins statistic for assessing clustering tendency and testing departure from complete spatial randomness (CSR)."
+description = "Compute the Hopkins statistic to assess clustering tendency."
 readme = "README.md"
 authors = [{name = "Johann Philipp Gorzny"}]
 requires-python = ">=3.13"
@@ -27,7 +27,7 @@ files = ["src"]
 strict = true
 
 [tool.pytest]
-addopts = ["--import-mode=importlib"]
+addopts = ["--import-mode=importlib", "--doctest-modules"]
 markers = ["slow: slow statistical tests"]
 strict = true
 

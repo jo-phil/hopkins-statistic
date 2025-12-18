@@ -1,7 +1,7 @@
 # hopkins-statistic
 
 A Python package for computing the Hopkins statistic to test for departure from
-complete spatial randomness (CSR), commonly used to assess clustering tendency.
+complete spatial randomness (CSR), often used to assess clustering tendency.
 
 ## Installation
 
@@ -9,9 +9,16 @@ _Not yet available._
 
 ## Quick Start
 
-_Not yet available._
+```python
+import numpy as np
+from hopkins_statistic import hopkins
 
-## Definition of the Hopkins Statistic
+rng = np.random.default_rng(42)
+X = rng.uniform(size=(100, 2))
+print(hopkins(X, rng=rng))  # ~0.5 for CSR-like data
+```
+
+## Definition
 
 As noted by Wright (2022), the definition of the Hopkins statistic is a common
 source of confusion in both literature and software implementations. To avoid
@@ -25,8 +32,7 @@ choose $m$ such that $m \ll n$ and let
 - $`\{x_i\}_{i=1}^m`$ be a simple random sample from $X$ (without replacement),
   and
 - $`\{y_i\}_{i=1}^m`$ be synthetic points drawn i.i.d. uniformly from the
-  sampling frame  
-  (e.g., the axis-aligned bounding box of $X$).
+  sampling frame.
 
 For each $`i \in \{1,\dots,m\}`$, let
 
@@ -36,13 +42,17 @@ For each $`i \in \{1,\dots,m\}`$, let
 
 Then the Hopkins statistic is defined as
 
-$$H = \frac{\sum_{i=1}^m u_i^d}{\sum_{i=1}^m u_i^d + \sum_{i=1}^m w_i^d}.$$
+$$
+    H = \frac{\sum_{i=1}^m u_i^d}{\sum_{i=1}^m u_i^d + \sum_{i=1}^m w_i^d}.
+$$
 
 Under the CSR null hypothesis, $H \sim \mathrm{Beta}(m,m)$.
 
-### Interpretation
+## Interpretation
 
-The table below lists commonly used rule-of-thumb thresholds for interpreting $H$.
+While critical values can be obtained from the $\mathrm{Beta}(m,m)$ null
+distribution, the table below lists commonly used rule-of-thumb thresholds
+for interpreting $H$.
 
 |           $H$ | Pattern   | Interpretation                                          |
 |--------------:|:----------|:--------------------------------------------------------|
@@ -50,8 +60,23 @@ The table below lists commonly used rule-of-thumb thresholds for interpreting $H
 | $\approx 0.5$ | random    | Consistent with complete spatial randomness (CSR).      |
 |     $\le 0.3$ | regular   | Suggests a departure from CSR toward more even spacing. |
 
-To assess statistical significance, the observed $H$ can be compared to its CSR
-null distribution, $\mathrm{Beta}(m,m)$.
+## Practical notes
+
+- The **sampling frame** is approximated as the axis-aligned bounding box of `X`
+  in this implementation. If this is not a reasonable representation of the
+  region the data come from, `X` may be transformed beforehand.
+
+- **Euclidean distances** on non-spatial data often benefit from scaling the
+  features in `X` to comparable ranges.
+
+- The **sample size** `m` should typically be at least 10 to avoid small-sample
+  problems and no more than about one tenth of $n$ to balance variance and the
+  approximations used for the null distribution of the statistic.
+
+- The **exponent** `power` applied to distances defaults to $d$, the number of
+  columns in `X`. This yields the statistic as defined above. Other values alter
+  the null distribution.
+
 
 ## References
 
@@ -62,7 +87,8 @@ null distribution, $\mathrm{Beta}(m,m)$.
   of Distribution of Plant Individuals. Annals of Botany, 18(2), 213–227.
   https://doi.org/10.1093/oxfordjournals.aob.a083391
 - Wright, K. (2022). Will the Real Hopkins Statistic Please Stand Up?
-  The R Journal, 14(3), 282–292. https://doi.org/10.32614/rj-2022-055
+  The R Journal, 14(3), 282–292.  
+  https://doi.org/10.32614/rj-2022-055
 
 ## License
 

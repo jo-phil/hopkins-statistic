@@ -1,7 +1,7 @@
-"""Hopkins statistic: a measure of clustering tendency.
+"""Hopkins statistic for assessing clustering tendency.
 
-Compute the Hopkins statistic to test for departure from complete spatial
-randomness (CSR), commonly used to assess clustering tendency.
+Implements the Hopkins statistic to test for departure from complete
+spatial randomness (CSR). The main entry point is the `hopkins` function.
 """
 
 from ._statistic import HopkinsUndefinedWarning, hopkins
