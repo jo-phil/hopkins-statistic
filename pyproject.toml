@@ -4,10 +4,11 @@ version = "0.1.0"
 description = "Compute the Hopkins statistic to assess clustering tendency."
 readme = "README.md"
 authors = [{name = "Johann Philipp Gorzny"}]
-requires-python = ">=3.13"
+
+requires-python = ">=3.11"
 dependencies = [
-    "numpy>=2.3.5",
-    "scipy>=1.16.3",
+    "numpy>=2.0.0",
+    "scipy>=1.13.0",
 ]
 
 [build-system]

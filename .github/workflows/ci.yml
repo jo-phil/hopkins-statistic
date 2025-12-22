@@ -10,25 +10,20 @@ permissions:
   contents: read
 
 jobs:
-  tests:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
-
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.13"
+      - uses: actions/checkout@v6
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
         with:
-          version: "0.9.16"
           enable-cache: true
+          python-version: "3.13"
 
-      - name: Install the project
-        run: uv sync --locked --all-extras --dev
+      - name: Install dependencies
+        run: uv sync --dev
 
       - name: Run linting
         run: uv run ruff check --output-format=github
@@ -39,8 +34,30 @@ jobs:
       - name: Check typing
         run: uv run mypy
 
+  test:
+    needs: lint
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12", "3.13", "3.14"]
+        resolution: ["highest"]
+        include:
+          - python-version: "3.11"
+            resolution: "lowest-direct"
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install uv and set the Python version
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+          cache-suffix: ${{ matrix.resolution }}
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: uv sync --dev --resolution ${{ matrix.resolution }}
+
       - name: Run tests
         run: uv run pytest
-
-      - name: Minimize uv cache
-        run: uv cache prune --ci
