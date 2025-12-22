@@ -19,6 +19,7 @@ build-backend = "uv_build"
 dev = [
     "mypy>=1.19.0",
     "pytest>=9.0.2",
+    "pytest-examples>=0.0.18",
     "ruff>=0.14.8",
     "scipy-stubs==1.16.3.3",
 ]

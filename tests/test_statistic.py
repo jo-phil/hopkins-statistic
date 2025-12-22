@@ -10,11 +10,6 @@ from hopkins_statistic import hopkins
 N, D = 100, 2
 
 
-def test_near_half_under_uniform_null(rng):
-    X = rng.uniform(size=(N, D))
-    assert 0.4 < hopkins(X, rng=rng) < 0.6
-
-
 @pytest.mark.slow
 @pytest.mark.parametrize("d", [2, 3, 5])
 def test_beta_moments_under_uniform_null(d, rng):
@@ -34,11 +29,6 @@ def test_high_under_clustering(rng):
 def test_one_under_extreme_clustering(rng):
     X = [[0, 0], [1, 1]] * 2
     assert hopkins(X, rng=rng) == 1.0
-
-
-def test_low_under_regularity(rng):
-    X = list(itertools.product(range(10), repeat=2))
-    assert hopkins(X, rng=rng) < 0.3
 
 
 def test_invariant_under_scale_and_shift(rng):
