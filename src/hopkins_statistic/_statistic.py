@@ -93,7 +93,7 @@ def hopkins(
 
     tree = KDTree(X)
     u = tree.query(null_sample, k=1)[0]
-    w = tree.query(data_sample, k=2)[0][:, 1]  # type: ignore[index]
+    w = np.asarray(tree.query(data_sample, k=2)[0])[:, 1]  # 1st NN is itself
 
     u_sum = np.sum(u**power)
     w_sum = np.sum(w**power)
