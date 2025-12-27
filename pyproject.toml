@@ -54,6 +54,10 @@ dev = [
     "ruff>=0.14.8",
     "scipy-stubs>=1.16.3.3",
 ]
+docs = [
+    "pdoc>=16.0.0",
+    "pygments-styles>=0.3.0",
+]
 
 [tool.mypy]
 files = ["src"]
@@ -72,6 +76,7 @@ select = ["ALL"]
 ignore = [
     "COM812",   # redundant when using a formatter
     "PLR2004",  # flags 2 as a magic number
+    "RUF022",   # prohibits functions first in __all__
 
     # irrelevant
     "AIR", "ASYNC", "DJ", "FAST", "PD", "PYI",

@@ -208,3 +208,4 @@ __marimo__/
 
 # Documentation
 docs/html
+docs/templates/syntax-highlighting.css

@@ -1,0 +1,102 @@
+nav.pdoc {
+    box-shadow: rgba(0, 0, 0, 20%) 0 0 1rem inset;
+}
+
+nav.pdoc .nav-header {
+    margin-bottom: 1.5rem;
+    width: calc(100% - 1rem);
+}
+
+nav.pdoc .nav-header .badges {
+    display: flex;
+    justify-content: left;
+    column-gap: 2rem;
+}
+
+nav.pdoc .nav-header .badges > * {
+    flex-shrink: 0;
+}
+
+nav.pdoc .nav-header .badges a {
+    color: #24292f;
+    border-radius: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    margin: -0.2rem -0.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    nav.pdoc .nav-header .badges a {
+        color: #eee;
+    }
+}
+
+nav.pdoc .nav-header .badges a:hover {
+    background-color: var(--nav-hover);
+}
+
+nav.pdoc .nav-header .badges svg {
+    height: 0.9rem;
+    margin-right: 0.1rem;
+    vertical-align: baseline;
+}
+
+nav.pdoc > div > ul {
+    margin-right: calc(0 - var(--pad));
+}
+
+nav.pdoc > div > ul > li {
+    border-radius: 0.5rem;
+    margin: 0 calc(0.2*var(--pad));
+}
+
+nav.pdoc > div > ul > li > a {
+    padding-left: calc(0.8*var(--pad));
+}
+
+.docstring > p:first-of-type {
+    font-size: 112.5%;
+}
+
+.pdoc p a:hover {
+    text-decoration: underline;
+    white-space: nowrap;
+}
+
+.module-info blockquote {
+    border-left: 2px solid var(--accent);
+    margin-left: 0;
+    padding: 0.2rem 0 0.2rem calc(2rem - 2px);
+}
+
+.module-info blockquote p:last-of-type {
+    margin-bottom: 0;
+}
+
+.pdoc .alert.note {
+    color: var(--text);
+    background: unset;
+    border: none;
+    border-left: 2px solid var(--link);
+    border-radius: 0;
+    padding: 0.2rem 0 0.2rem calc(2rem - 2px);
+}
+
+.pdoc .alert.note > em {
+    display: initial;
+    color: var(--link);
+    font-style: normal;
+}
+
+.pdoc-code {
+    background: unset;
+}
+
+.pdoc-code pre, .attr {
+    border: none;
+    border-radius: 0.5rem;
+}
+
+.pdoc div:target > .attr,
+.pdoc section:target > .attr {
+    background-color: var(--code);
+}

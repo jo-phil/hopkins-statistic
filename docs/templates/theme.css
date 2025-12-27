@@ -1,0 +1,39 @@
+:root {
+    --pdoc-background: #fff;
+}
+
+.pdoc {
+    --text: #222;
+    --muted: #666;
+    --link: #16d;
+    --link-hover: #16d;
+    --code: #f5f5f5;
+
+    --accent: #f0f0f0;
+    --accent2: #f0f0f0;
+
+    --nav-hover: rgb(0, 0, 0, 0.05);
+    --name: #b42041;
+    --def: #222;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --pdoc-background: #111;
+    }
+
+    .pdoc {
+        --text: #eee;
+        --muted: #aaa;
+        --link: #49f;
+        --link-hover: #49f;
+        --code: #1b1b1b;
+
+        --accent: #202020;
+        --accent2: #202020;
+
+        --nav-hover: rgba(255, 255, 255, 0.05);
+        --name: #d14152;
+        --def: #eee;
+    }
+}

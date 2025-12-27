@@ -72,21 +72,19 @@ for interpreting $H$.
 
 - <a id="1"></a>
   Cross, G. R., & Jain, A. K. (1982). Measurement of clustering tendency.
-  In *Theory and Application of Digital Control* (pp. 315–320). Pergamon.  
+  In *Theory and Application of Digital Control* (pp. 315–320). Pergamon.
   https://doi.org/10.1016/S1474-6670(17)63365-2
 
 - <a id="2"></a>
   Hopkins, B., & Skellam, J. G. (1954). A new method for determining the type
-  of distribution of plant individuals. *Annals of Botany, 18*(2), 213–227.  
+  of distribution of plant individuals. *Annals of Botany, 18*(2), 213–227.
   https://doi.org/10.1093/oxfordjournals.aob.a083391
 
 - <a id="3"></a>
   Lawson, R. G., & Jurs, P. C. (1990). New index for clustering tendency
   and its application to chemical problems. *Journal of chemical information
-  and computer sciences, 30*(1), 36–41.  
-  https://doi.org/10.1021/ci00065a010
+  and computer sciences, 30*(1), 36–41. https://doi.org/10.1021/ci00065a010
 
 - <a id="4"></a>
   Wright, K. (2022). Will the Real Hopkins Statistic Please Stand Up?
-  *The R Journal, 14*(3), 282–292.  
-  https://doi.org/10.32614/rj-2022-055
+  *The R Journal, 14*(3), 282–292. https://doi.org/10.32614/rj-2022-055

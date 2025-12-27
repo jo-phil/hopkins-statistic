@@ -20,55 +20,44 @@ def hopkins(
 ) -> float:
     """Compute the Hopkins statistic.
 
-    The Hopkins statistic is a test statistic for the null hypothesis of
-    complete spatial randomness (CSR), i.e., that points are independently
-    and uniformly distributed within the sampling frame. Under this null,
-    the expected value of the statistic is 0.5. Larger values indicate
-    more clustering than expected under CSR, while smaller values indicate
-    more regular spacing.
-
     Args:
         X: Array-like of shape `(n, d)`, with `n >= 3` observations
-            in `d >= 1` dimensions. All values must be finite.
+            in `d >= 1` dimensions. Must contain only finite values.
         m: Sample size, or its fraction of `n`.
-            If int, this must satisfy `1 <= m <= n`.
-            If float, this must satisfy `0 < m <= 1`,
-            and the sample size is `ceil(m * n)`.
+            - If int, this must satisfy `1 <= m <= n`.
+            - If float, this must satisfy `0 < m <= 1`,
+              and the sample size is `ceil(m * n)`.
         power: Exponent applied to Euclidean distances. Defaults to `d`.
             Must be positive and finite.
-        rng: Random number generator or seed passed to `np.random.default_rng`.
-            Specify for repeatable behavior.
+        rng: Random number generator or seed passed to
+            `numpy.random.default_rng`. Specify for repeatable behavior.
 
     Returns:
         The Hopkins statistic, a number between 0 and 1 (or NaN if undefined).
 
     Warns:
-        HopkinsUndefinedWarning: If all observations in X are identical.
-
-    Notes:
-        * The sampling frame is taken as the axis-aligned bounding box
-          of `X`; results should be interpreted accordingly.
-        * Euclidean distances on non-spatial data often benefit from
-          feature scaling.
-        * The sample size `m` is typically chosen between 10 and one
-          tenth of `n` to balance variance and the approximations used
-          for the null distribution of the statistic.
-        * The exponent `power` defaults to `d`, the number of columns
-          in `X`; other values alter the null distribution.
+        `HopkinsUndefinedWarning`: If all observations in X are identical.
 
     Examples:
+        Under CSR, the statistic is expected to be near half.
         >>> import numpy as np
         >>> from hopkins_statistic import hopkins
         >>> rng = np.random.default_rng(42)
         >>> X = rng.uniform(size=(100, 2))
-        >>> hopkins(X, rng=rng)  # near half under CSR
-        0.51...
+        >>> hopkins(X, rng=rng)
+        0.513...
 
-        >>> centers = np.array([[0, 0], [5, 5]])
-        >>> labels = rng.integers(2, size=100)
-        >>> X = centers[labels] + rng.normal(size=(100, 2))
-        >>> hopkins(X, rng=rng)  # larger for clustered data
-        0.86...
+        For strongly clustered data, the statistic tends to be larger than 0.7.
+        >>> centers = np.array([[0, 0], [0, 1]])
+        >>> labels = rng.integers(len(centers), size=100)
+        >>> X = centers[labels] + rng.normal(scale=0.1, size=(100, 2))
+        >>> hopkins(X, rng=rng)
+        0.927...
+
+        For evenly spaced data, its value tends to be lower than 0.3.
+        >>> X = [[x, y] for x in range(10) for y in range(10)]
+        >>> hopkins(X, rng=rng)
+        0.167...
 
     """
     X = np.asarray(X, dtype=float)
