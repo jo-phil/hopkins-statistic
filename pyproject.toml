@@ -40,6 +40,7 @@ classifiers = [
 ]
 
 [project.urls]
+Documentation = "https://jo-phil.github.io/hopkins-statistic/"
 Repository = "https://github.com/jo-phil/hopkins-statistic"
 
 [build-system]
