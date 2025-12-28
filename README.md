@@ -1,11 +1,16 @@
 # hopkins-statistic
 
+[![CI](https://github.com/jo-phil/hopkins-statistic/actions/workflows/ci.yml/badge.svg)](https://github.com/jo-phil/hopkins-statistic/actions/workflows/ci.yml)
+[![Docs](https://github.com/jo-phil/hopkins-statistic/actions/workflows/docs.yml/badge.svg)](https://jo-phil.github.io/hopkins-statistic/)
+
 A Python package for computing the Hopkins statistic to test for departure from
 complete spatial randomness (CSR), often used to assess clustering tendency.
 
 ## Installation
 
-_Not yet available._
+```bash
+pip install hopkins-statistic
+```
 
 ## Usage
 
@@ -28,4 +33,5 @@ print(f"{H:.2f}")
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT.
+See [LICENSE](https://github.com/jo-phil/hopkins-statistic/blob/main/LICENSE).
