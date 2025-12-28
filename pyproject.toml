@@ -57,6 +57,7 @@ dev = [
 ]
 docs = [
     "pdoc>=16.0.0",
+    "pygments>=2.19.2",
     "pygments-styles>=0.3.0",
 ]
 
