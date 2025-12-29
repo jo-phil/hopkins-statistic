@@ -1,6 +1,8 @@
 # hopkins-statistic
 
 [![CI](https://github.com/jo-phil/hopkins-statistic/actions/workflows/ci.yml/badge.svg)](https://github.com/jo-phil/hopkins-statistic/actions/workflows/ci.yml)
+[![PyPI - Version](https://img.shields.io/pypi/v/hopkins-statistic)](https://pypi.org/project/hopkins-statistic/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/hopkins-statistic)](https://pypi.org/project/hopkins-statistic/)
 [![Docs](https://github.com/jo-phil/hopkins-statistic/actions/workflows/docs.yml/badge.svg)](https://jo-phil.github.io/hopkins-statistic/)
 
 A Python package for computing the Hopkins statistic to test for departure from
