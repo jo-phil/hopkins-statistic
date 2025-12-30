@@ -2,7 +2,7 @@
 
 This library implements the Hopkins statistic as defined by [Hopkins and
 Skellam (1954)](#2) and generalized by [Cross and Jain (1982)](#1).
-The main entry point is the `hopkins` function.
+Main entry points are the `hopkins` and `hopkins_test` functions.
 
 ## Installation
 .. include:: ../../README.md
@@ -13,6 +13,12 @@ The main entry point is the `hopkins` function.
 
 """
 
-from ._statistic import HopkinsUndefinedWarning, hopkins
+__all__ = [
+    "hopkins",
+    "hopkins_test",
+    "HopkinsTestResult",
+    "HopkinsUndefinedWarning",
+]
 
-__all__ = ["hopkins", "HopkinsUndefinedWarning"]
+from ._inference import HopkinsTestResult, hopkins_test
+from ._statistic import HopkinsUndefinedWarning, hopkins

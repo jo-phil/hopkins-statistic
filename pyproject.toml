@@ -85,7 +85,7 @@ ignore = [
 ]
 
 [tool.ruff.lint.pep8-naming]
-extend-ignore-names = ["X"]
+extend-ignore-names = ["X", "H"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["ANN", "D", "N802", "N803", "N806", "S101"]
