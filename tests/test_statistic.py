@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 from scipy.stats import beta
 
-from hopkins_statistic import hopkins
+from hopkins_statistic import hopkins, hopkins_test
 
 # Smallest reasonable shape used in behavioral tests
 N, D = 100, 2
@@ -23,12 +23,23 @@ def test_high_under_clustering(rng):
     corners = np.array(list(itertools.product([0, 1], repeat=D)))
     indices = rng.integers(len(corners), size=N)
     X = (corners[indices] + rng.normal(scale=0.1, size=(N, D))) % 1
-    assert hopkins(X, rng=rng) > 0.7
+
+    result = hopkins_test(X, rng=rng)
+    assert result.statistic > 0.7
+    assert result.pvalue < 0.05
 
 
 def test_one_under_extreme_clustering(rng):
     X = [[0, 0], [1, 1]] * 2
     assert hopkins(X, rng=rng) == 1.0
+
+
+def test_low_under_regularity(rng):
+    X = np.array(list(itertools.product(range(int(N ** (1 / D))), repeat=D)))
+
+    result = hopkins_test(X, alternative="regular", rng=rng)
+    assert result.statistic < 0.3
+    assert result.pvalue < 0.05
 
 
 def test_invariant_under_scale_and_shift(rng):
