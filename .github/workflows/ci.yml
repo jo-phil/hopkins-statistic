@@ -12,6 +12,15 @@ permissions:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - python-version: "3.14"
+            resolution: "highest"
+            run-ruff: true
+          - python-version: "3.11"
+            resolution: "lowest-direct"
+            run-ruff: false
 
     steps:
       - uses: actions/checkout@v6
@@ -20,19 +29,22 @@ jobs:
         uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
-          python-version: "3.13"
+          cache-suffix: ${{ matrix.resolution }}
+          python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
-        run: uv sync --dev
+        run: uv sync --dev --resolution ${{ matrix.resolution }}
 
       - name: Run linting
-        run: uv run ruff check --output-format=github
+        if: matrix.run-ruff
+        run: uv run --no-sync ruff check --output-format=github
 
       - name: Check formatting
-        run: uv run ruff format --check --output-format=github
+        if: matrix.run-ruff
+        run: uv run --no-sync ruff format --check --output-format=github
 
       - name: Check typing
-        run: uv run mypy
+        run: uv run --no-sync mypy
 
   test:
     needs: lint
@@ -60,4 +72,4 @@ jobs:
         run: uv sync --dev --resolution ${{ matrix.resolution }}
 
       - name: Run tests
-        run: uv run pytest
+        run: uv run --no-sync pytest
