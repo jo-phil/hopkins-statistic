@@ -23,6 +23,11 @@ def hopkins(
 ) -> float:
     """Compute the Hopkins statistic.
 
+    The Hopkins statistic measures clustering tendency by comparing
+    nearest-neighbor distances of sampled data points with those of
+    points placed uniformly at random in the sampling frame, here
+    approximated by the axis-aligned bounding box of `X`.
+
     Args:
         X: Array-like of shape `(n, d)`, with `n >= 3` observations
             in `d >= 1` dimensions. Must contain only finite values.
@@ -36,10 +41,10 @@ def hopkins(
             `numpy.random.default_rng`. Specify for repeatable behavior.
 
     Returns:
-        The Hopkins statistic, a number between 0 and 1 (or NaN if undefined).
+        The Hopkins statistic, a value between 0 and 1 (NaN if undefined).
 
     Warns:
-        `HopkinsUndefinedWarning`: If all observations in X are identical.
+        `HopkinsUndefinedWarning`: If all observations in `X` are identical.
 
     Examples:
         Under CSR, the statistic is expected to be near half.

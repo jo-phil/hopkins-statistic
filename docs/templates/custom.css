@@ -53,8 +53,12 @@ nav.pdoc > div > ul > li > a {
     padding-left: calc(0.8*var(--pad));
 }
 
-.docstring > p:first-of-type {
-    font-size: 112.5%;
+nav.pdoc ul.memberlist ul.memberlist {
+    display: none;
+}
+
+section.module-info .docstring > p:first-of-type {
+    font-size: 106.25%;
 }
 
 .pdoc p a:hover {
@@ -85,6 +89,12 @@ nav.pdoc > div > ul > li > a {
     display: initial;
     color: var(--link);
     font-style: normal;
+}
+
+.docstring > h6 {
+    font-size: 87.5%;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .pdoc-code {

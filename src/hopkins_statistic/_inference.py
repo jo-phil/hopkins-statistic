@@ -51,6 +51,10 @@ def hopkins_test(
 ) -> HopkinsTestResult:
     """Perform a Hopkins test.
 
+    The Hopkins test tests the null hypothesis of complete spatial
+    randomness by comparing the observed Hopkins statistic to its
+    Beta(m, m) null distribution.
+
     Args:
         X: Array-like of shape `(n, d)`, with `n >= 3` observations
             in `d >= 1` dimensions. Must contain only finite values.

@@ -5,7 +5,8 @@ complete spatial randomness (CSR), i.e., that points are independently
 and uniformly distributed within a region of space (the sampling frame).
 Under this null, the expected value of the statistic is 0.5.
 Larger values indicate more clustering than expected under CSR, while
-smaller values indicate more regular spacing.
+smaller values indicate more regular spacing. Thus, the statistic is
+often used as a scalar measure of clustering tendency.
 
 ### Definition
 
@@ -19,8 +20,8 @@ data in any dimension:
 > choose $m$ such that $m \ll n$ and let
 > - $\lbrace x_i \rbrace_{i=1}^m$ be a simple random sample from $X$
 >   (without replacement), and
-> - $\lbrace y_i \rbrace_{i=1}^m$ be synthetic points drawn i.i.d.
->   uniformly from the sampling frame.
+> - $\lbrace y_i \rbrace_{i=1}^m$ be points placed uniformly at random
+>   in the sampling frame.
 > 
 > For each $i \in \lbrace 1,\dots,m \rbrace$, let
 > - $u_i$ be the distance from $y_i$ to its nearest neighbor in $X$, and
@@ -35,8 +36,8 @@ data in any dimension:
 > Under the CSR null hypothesis, $H \sim \mathrm{Beta}(m,m)$.
 
 > [!NOTE]
-> Other implementations may not raise distances to the power of $d$
-> following [Lawson and Jurs (1990)](#3), or return $1 - H$ instead of $H$.
+> Other implementations may follow [Lawson and Jurs (1990)](#3) by not raising
+> distances to the power of $d$, or may return $1 - H$ instead of $H$.
 
 ### Interpretation
 
