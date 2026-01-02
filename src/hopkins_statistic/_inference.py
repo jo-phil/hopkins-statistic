@@ -5,6 +5,7 @@ from numpy.typing import ArrayLike
 from scipy.stats import beta
 
 from hopkins_statistic._statistic import _parse_m, _validate_shape, hopkins
+from hopkins_statistic._typing import RNGLike, SeedLike
 
 Alternative: TypeAlias = Literal["clustered", "regular", "two-sided"]
 
@@ -46,7 +47,7 @@ def hopkins_test(
     *,
     m: int | float = 0.1,
     alternative: Alternative = "clustered",
-    rng: np.random.Generator | int | None = None,
+    rng: RNGLike | SeedLike | None = None,
 ) -> HopkinsTestResult:
     """Perform a Hopkins test.
 

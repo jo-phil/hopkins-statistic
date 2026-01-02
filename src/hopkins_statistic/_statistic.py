@@ -1,10 +1,13 @@
 import math
 import numbers
 import warnings
+from typing import Any
 
 import numpy as np
 from numpy.typing import ArrayLike
 from scipy.spatial import KDTree
+
+from hopkins_statistic._typing import RNGLike, SeedLike
 
 
 class HopkinsUndefinedWarning(RuntimeWarning):
@@ -16,7 +19,7 @@ def hopkins(
     *,
     m: int | float = 0.1,
     power: int | float | None = None,
-    rng: np.random.Generator | int | None = None,
+    rng: RNGLike | SeedLike | None = None,
 ) -> float:
     """Compute the Hopkins statistic.
 
@@ -90,7 +93,9 @@ def hopkins(
     return float(u_sum / (u_sum + w_sum))
 
 
-def _validate_shape(X: np.ndarray) -> tuple[int, int]:
+def _validate_shape(
+    X: np.ndarray[Any, np.dtype[np.float64]],
+) -> tuple[int, int]:
     if X.ndim != 2:
         msg = f"X must be a 2D array of shape (n, d); got shape {X.shape}."
         raise ValueError(msg)
