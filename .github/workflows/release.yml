@@ -80,10 +80,12 @@ jobs:
 
       - name: Create GitHub release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
           RELEASE_NOTES: "${{ needs.build.outputs.release_notes }}"
         run: |
           gh release create ${{ github.ref_name }} \
             dist/* \
+            --repo 
             --notes "${RELEASE_NOTES:-}" \
             --verify-tag
