@@ -5,9 +5,9 @@
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/hopkins-statistic)](https://pypi.org/project/hopkins-statistic/)
 [![Docs](https://github.com/jo-phil/hopkins-statistic/actions/workflows/docs.yml/badge.svg)](https://jo-phil.github.io/hopkins-statistic/)
 
-hopkins-statistic is a library for computing the Hopkins statistic to
-test for departure from complete spatial randomness (CSR), i.e., the
-presence of clustering or regularity in point patterns.
+hopkins-statistic is a library for computing the Hopkins statistic to assess
+clustering tendency (also known as cluster tendency or clusterability) by
+testing for departure from complete spatial randomness (CSR) in point patterns.
 
 This implementation defaults to the formulation of Cross and Jain (1982),
 raising distances to the power of the data dimension. In two dimensions this is
