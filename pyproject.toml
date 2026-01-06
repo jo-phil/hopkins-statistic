@@ -52,6 +52,7 @@ build-backend = "uv_build"
 dev = [
     "mypy>=1.19.1",
     "pytest>=9.0.2",
+    "pytest-cov>=7.0.0",
     "pytest-examples>=0.0.18",
     "ruff>=0.14.8",
     "scipy-stubs>=1.16.3.3",
@@ -62,13 +63,20 @@ docs = [
     "pygments-styles>=0.3.0",
 ]
 
-[tool.mypy]
-files = ["src"]
-strict = true
-
 [tool.pytest]
 addopts = ["--import-mode=importlib", "--doctest-modules"]
 markers = ["slow: slow statistical tests"]
+strict = true
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.mypy]
+files = ["src"]
 strict = true
 
 [tool.ruff]
