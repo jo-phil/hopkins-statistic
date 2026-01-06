@@ -1,9 +1,10 @@
 # hopkins-statistic
 
-[![CI](https://github.com/jo-phil/hopkins-statistic/actions/workflows/ci.yml/badge.svg)](https://github.com/jo-phil/hopkins-statistic/actions/workflows/ci.yml)
-[![PyPI - Version](https://img.shields.io/pypi/v/hopkins-statistic)](https://pypi.org/project/hopkins-statistic/)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/hopkins-statistic)](https://pypi.org/project/hopkins-statistic/)
-[![Docs](https://github.com/jo-phil/hopkins-statistic/actions/workflows/docs.yml/badge.svg)](https://jo-phil.github.io/hopkins-statistic/)
+[![CI](https://github.com/jo-phil/hopkins-statistic/actions/workflows/ci.yml/badge.svg)](https://github.com/jo-phil/hopkins-statistic/actions/workflows/ci.yml "View workflow runs")
+[![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/jo-phil/dd436ee381602e21922433dfcdd0b9ec/raw/f3d7e554e7fc565a44b7e7781e6804253f965cd2/coverage.json)](https://github.com/jo-phil/hopkins-statistic/actions/workflows/ci.yml?query=branch%3Amain+event%3Apush "View coverage report")
+[![PyPI - Version](https://img.shields.io/pypi/v/hopkins-statistic)](https://pypi.org/project/hopkins-statistic/ "View latest release on PyPI")
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/hopkins-statistic)](https://pypi.org/project/hopkins-statistic/ "View supported Python versions on PyPI")
+[![Docs](https://github.com/jo-phil/hopkins-statistic/actions/workflows/docs.yml/badge.svg)](https://jo-phil.github.io/hopkins-statistic/ "Read the documentation")
 
 hopkins-statistic is a library for computing the Hopkins statistic to assess
 clustering tendency (also known as cluster tendency or clusterability) by
