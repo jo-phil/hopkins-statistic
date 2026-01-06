@@ -3,7 +3,7 @@ import sys
 if sys.version_info >= (3, 13):
     from typing import TypeAliasType
 else:
-    from typing_extensions import TypeAliasType
+    from typing_extensions import TypeAliasType  # pragma: no cover
 
 from collections.abc import Sequence
 from typing import Any

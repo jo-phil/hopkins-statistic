@@ -50,6 +50,8 @@ jobs:
     needs: lint
 
     runs-on: ubuntu-latest
+    env:
+      COVERAGE_PYTHON: "3.14"
     strategy:
       matrix:
         python-version: ["3.11", "3.12", "3.13", "3.14"]
@@ -72,4 +74,54 @@ jobs:
         run: uv sync --dev --resolution ${{ matrix.resolution }}
 
       - name: Run tests
-        run: uv run --no-sync pytest
+        run: |
+          if [ "${{ matrix.python-version }}" == "${{ env.COVERAGE_PYTHON }}" ]; then
+            uv run --no-sync pytest --cov --cov-report=json --cov-report=markdown --cov-report=term
+          else
+            uv run --no-sync pytest
+          fi
+
+      - name: Add coverage summary
+        if: matrix.python-version == env.COVERAGE_PYTHON
+        run: |
+          echo "## Code Coverage Report" >> $GITHUB_STEP_SUMMARY
+          cat coverage.md >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload coverage artifact
+        if: |
+          matrix.python-version == env.COVERAGE_PYTHON &&
+          github.event_name == 'push' &&
+          github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.json
+
+  badge:
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: coverage
+
+    steps:
+      - name: Download coverage artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-report
+
+      - name: Update gist
+        env:
+          GH_TOKEN: ${{ secrets.GIST_TOKEN }}
+          GIST_ID: ${{ vars.GIST_ID }}
+        run: |
+          PCT=$(jq -r '.totals.percent_covered_display' coverage.json)
+          
+          if [ "$PCT" -ge 95 ]; then COLOR="brightgreen";
+          elif [ "$PCT" -ge 90 ]; then COLOR="green";
+          elif [ "$PCT" -ge 80 ]; then COLOR="yellowgreen";
+          elif [ "$PCT" -ge 70 ]; then COLOR="yellow";
+          elif [ "$PCT" -ge 60 ]; then COLOR="orange";
+          else COLOR="red"; fi
+          
+          JSON_DATA=$(printf '{"schemaVersion":1,"label":"coverage","message":"%s%%","color":"%s"}' "$PCT" "$COLOR")
+          gh gist edit "$GIST_ID" --add "coverage.json" - <<< "$JSON_DATA"
