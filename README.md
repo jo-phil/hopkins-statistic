@@ -5,6 +5,7 @@
 [![PyPI - Version](https://img.shields.io/pypi/v/hopkins-statistic)](https://pypi.org/project/hopkins-statistic/ "View latest release on PyPI")
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/hopkins-statistic)](https://pypi.org/project/hopkins-statistic/ "View supported Python versions on PyPI")
 [![Docs](https://github.com/jo-phil/hopkins-statistic/actions/workflows/docs.yml/badge.svg)](https://jo-phil.github.io/hopkins-statistic/ "Read the documentation")
+[![DOI](https://zenodo.org/badge/1108713722.svg)](https://doi.org/10.5281/zenodo.18172791 "View on Zenodo")
 
 hopkins-statistic is a library for computing the Hopkins statistic to assess
 clustering tendency (also known as cluster tendency or clusterability) by
