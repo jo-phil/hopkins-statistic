@@ -5,8 +5,7 @@ import pytest
 
 from hopkins_statistic import hopkins, hopkins_test
 
-# Smallest valid shape used in validation tests
-N, D = 3, 1
+N, D = 3, 1  # smallest valid shape for validation tests
 X = np.arange(N * D).reshape((N, D))
 
 
@@ -15,8 +14,8 @@ def hopkins_func(request):
     return request.param
 
 
-def test_minimal_valid_X_is_accepted(rng):
-    assert 0 < hopkins(X, rng=rng) < 1
+def test_minimal_valid_X_is_accepted():
+    assert 0 < hopkins(X) < 1
 
 
 @pytest.mark.parametrize(
@@ -46,8 +45,8 @@ def test_X_must_be_finite(hopkins_func, fill_value):
 
 
 @pytest.mark.parametrize("m", [1, N, 0.1, 1.0])
-def test_m_on_bounds_is_accepted(m, rng):
-    assert 0 < hopkins(X, m=m, rng=rng) < 1
+def test_m_on_bounds_is_accepted(m):
+    assert 0 < hopkins(X, m=m) < 1
 
 
 @pytest.mark.parametrize("m", [True, "1"])
@@ -95,4 +94,4 @@ def test_valid_alternative_is_accepted(alternative):
 
 def test_invalid_alternative_is_rejected():
     with pytest.raises(ValueError, match=r"Invalid alternative"):
-        hopkins_test(X, alternative="")
+        hopkins_test(X, alternative="")  # type: ignore[arg-type]
