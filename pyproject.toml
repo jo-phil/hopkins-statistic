@@ -76,8 +76,12 @@ branch = true
 show_missing = true
 
 [tool.mypy]
-files = ["src"]
+files = ["src", "tests"]
 strict = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
 
 [tool.ruff]
 line-length = 79
