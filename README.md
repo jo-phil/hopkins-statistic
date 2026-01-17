@@ -8,14 +8,14 @@
 [![DOI](https://zenodo.org/badge/1108713722.svg)](https://doi.org/10.5281/zenodo.18172791 "View on Zenodo")
 
 hopkins-statistic is a library for computing the Hopkins statistic to assess
-clustering tendency (also known as cluster tendency or clusterability) by
-testing for departure from complete spatial randomness (CSR) in point patterns.
+clustering tendency (also known as clusterability) by testing for departure from
+complete spatial randomness (CSR) in point patterns.
 
-This implementation defaults to the formulation of Cross and Jain (1982),
-raising distances to the power of the data dimension. In two dimensions this is
-equivalent to the original definition by Hopkins and Skellam (1954) and, under
-the CSR null hypothesis, the statistic has a Beta distribution, so *p*-values
-can be computed analytically.
+This implementation defaults to the Cross and Jain (1982) formulation, raising
+distances to the power of the data dimension. In two dimensions, this matches
+the original definition by Hopkins and Skellam (1954). Because the resulting
+statistic follows a beta distribution under the null hypothesis, *p*-values can
+be computed analytically.
 
 ## Installation
 
