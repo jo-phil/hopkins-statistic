@@ -67,6 +67,11 @@ def test_m_float_must_satisfy_bounds(hopkins_func, m):
         hopkins_func(X, m=m)
 
 
+def test_toroidal_must_be_bool():
+    with pytest.raises(TypeError, match=r"toroidal must be bool"):
+        hopkins(X, toroidal=1)  # type: ignore[arg-type]
+
+
 @pytest.mark.parametrize("power", [True, "1"])
 def test_power_must_be_numeric(power):
     with pytest.raises(TypeError, match=r"power must be a real number"):
