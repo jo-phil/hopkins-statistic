@@ -53,13 +53,16 @@ for interpreting $H$.
 
 ## Guidelines
 
+- **Euclidean distances** on non-spatial data often benefit from scaling
+  features in `X` to comparable ranges.
+
 - This implementation approximates the **sampling frame** as the
   axis-aligned bounding box of `X`. Results are therefore relative to
   that frame; if it is not a reasonable representation of the region the
   data come from, `X` may be transformed beforehand.
 
-- **Euclidean distances** on non-spatial data often benefit from scaling
-  the features in `X` to comparable ranges.
+- The `toroidal` option enables periodic boundary conditions to mitigate
+  edge effects.
 
 - The **sample size** `m` should typically be at least 10 to avoid
   small-sample problems and no more than about one tenth of $n$ to

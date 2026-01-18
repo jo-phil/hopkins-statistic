@@ -46,6 +46,7 @@ def hopkins_test(
     X: ArrayLike,
     *,
     m: int | float = 0.1,
+    toroidal: bool = False,
     alternative: Alternative = "clustered",
     rng: RNGLike | SeedLike | None = None,
 ) -> HopkinsTestResult:
@@ -62,6 +63,8 @@ def hopkins_test(
             - If int, this must satisfy `1 <= m <= n`.
             - If float, this must satisfy `0 < m <= 1`,
               and the sample size is `ceil(m * n)`.
+        toroidal: If True, compute the Hopkins statistic with
+            periodic boundary conditions.
         alternative: Alternative hypothesis of departure from CSR toward more
             `clustered` or `regular` data, or in either direction: `two-sided`.
         rng: Random number generator or seed passed to
@@ -79,7 +82,7 @@ def hopkins_test(
     n, _ = _validate_shape(X)
     m = _parse_m(m, n)
 
-    statistic = hopkins(X, m=m, rng=rng)
+    statistic = hopkins(X, m=m, toroidal=toroidal, rng=rng)
     pvalue = _hopkins_pvalue(statistic, m=m, alternative=alternative)
 
     return HopkinsTestResult(statistic=statistic, pvalue=pvalue)
