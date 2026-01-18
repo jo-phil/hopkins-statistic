@@ -18,6 +18,7 @@ def hopkins(
     X: ArrayLike,
     *,
     m: int | float = 0.1,
+    toroidal: bool = False,
     power: int | float | None = None,
     rng: RNGLike | SeedLike | None = None,
 ) -> float:
@@ -35,6 +36,8 @@ def hopkins(
             - If int, this must satisfy `1 <= m <= n`.
             - If float, this must satisfy `0 < m <= 1`,
               and the sample size is `ceil(m * n)`.
+        toroidal: If True, compute nearest-neighbor distances with
+            periodic boundary conditions.
         power: Exponent applied to Euclidean distances. Defaults to `d`.
             Must be positive and finite.
         rng: Random number generator or seed passed to
@@ -72,6 +75,7 @@ def hopkins(
 
     n, d = _validate_shape(X)
     m = _parse_m(m, n)
+    toroidal = _parse_toroidal(toroidal)
     power = _parse_power(power, d)
     rng = np.random.default_rng(rng)
 
@@ -85,10 +89,16 @@ def hopkins(
         warnings.warn(msg, HopkinsUndefinedWarning, stacklevel=2)
         return math.nan
 
+    boxsize = None
+    if toroidal:
+        X -= lower
+        lower, upper = 0, upper - lower
+        boxsize = np.nextafter(upper, np.inf)
+
     null_sample = rng.uniform(lower, upper, size=(m, d))
     data_sample = X[rng.choice(n, size=m, replace=False)]
 
-    tree = KDTree(X)
+    tree = KDTree(X, boxsize=boxsize)
     u = tree.query(null_sample, k=1)[0]
     w = np.asarray(tree.query(data_sample, k=2)[0])[:, 1]  # 1st NN is itself
 
@@ -130,6 +140,13 @@ def _parse_m(m: int | float, n: int) -> int:
         return math.ceil(m * n)
 
     msg = f"m must be int or float; got {type(m).__name__}."
+    raise TypeError(msg)
+
+
+def _parse_toroidal(toroidal: bool) -> bool:  # noqa: FBT001
+    if isinstance(toroidal, (bool, np.bool_)):
+        return bool(toroidal)
+    msg = f"toroidal must be bool; got {type(toroidal).__name__}"
     raise TypeError(msg)
 
 
