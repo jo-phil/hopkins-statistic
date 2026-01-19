@@ -86,6 +86,7 @@ jobs:
         run: |
           gh release create ${{ github.ref_name }} \
             dist/* \
-            --draft
+            --draft \
             --notes "${RELEASE_NOTES:-}" \
+            --title "${{ github.ref_name }}" \
             --verify-tag
