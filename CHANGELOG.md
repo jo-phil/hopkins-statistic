@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-01-19
+
 ### Added
 
 - `toroidal` option to `hopkins()` and `hopkins_test()` to compute the
@@ -33,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `hopkins()` to compute the Hopkins statistic for $d$-dimensional data
   following Cross & Jain (1982), using a (hyper-)rectangular sampling frame.
 
-[Unreleased]: https://github.com/jo-phil/hopkins-statistic/compare/0.2.0...HEAD
+[Unreleased]: https://github.com/jo-phil/hopkins-statistic/compare/0.3.0...HEAD
+[0.3.0]: https://github.com/jo-phil/hopkins-statistic/compare/0.2.0...0.3.0
 [0.2.0]: https://github.com/jo-phil/hopkins-statistic/compare/0.1.0...0.2.0
 [0.1.0]: https://github.com/jo-phil/hopkins-statistic/releases/tag/0.1.0
