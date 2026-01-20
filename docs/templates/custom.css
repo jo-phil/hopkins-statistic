@@ -7,37 +7,42 @@ nav.pdoc .nav-header {
     width: calc(100% - 1rem);
 }
 
-nav.pdoc .nav-header .badges {
+nav.pdoc .nav-header .badges, nav.pdoc .nav-header .links {
     display: flex;
+    flex-wrap: wrap;
     justify-content: left;
-    column-gap: 2rem;
+    column-gap: 1.5rem;
+    row-gap: 1rem;
 }
 
-nav.pdoc .nav-header .badges > * {
+nav.pdoc .nav-header .badges * {
     flex-shrink: 0;
 }
 
-nav.pdoc .nav-header .badges a {
-    color: #24292f;
+nav.pdoc .nav-header .links a {
     border-radius: 0.5rem;
     padding: 0.2rem 0.5rem;
     margin: -0.2rem -0.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
-    nav.pdoc .nav-header .badges a {
-        color: #eee;
-    }
-}
-
-nav.pdoc .nav-header .badges a:hover {
+nav.pdoc .nav-header .links a:hover {
     background-color: var(--nav-hover);
 }
 
-nav.pdoc .nav-header .badges svg {
+nav.pdoc .nav-header .links svg {
     height: 0.9rem;
     margin-right: 0.1rem;
     vertical-align: baseline;
+}
+
+.github svg {
+    color: #24292f;
+}
+
+@media (prefers-color-scheme: dark) {
+    .github svg {
+        color: #fff;
+    }
 }
 
 nav.pdoc > div > ul {
@@ -46,11 +51,11 @@ nav.pdoc > div > ul {
 
 nav.pdoc > div > ul > li {
     border-radius: 0.5rem;
-    margin: 0 calc(0.2*var(--pad));
+    margin: 0 calc(0.25*var(--pad));
 }
 
 nav.pdoc > div > ul > li > a {
-    padding-left: calc(0.8*var(--pad));
+    padding-left: calc(0.75*var(--pad));
 }
 
 nav.pdoc ul.memberlist ul.memberlist {
@@ -101,9 +106,19 @@ section.module-info .docstring > p:first-of-type {
     background: unset;
 }
 
-.pdoc-code pre, .attr {
+.pdoc .docstring .pdoc-code {
+    margin: 0;
+}
+
+.pdoc .attr {
+    background-color: var(--code);
+    margin: 0.75rem 0;
+}
+
+.pdoc pre, .pdoc .attr {
     border: none;
     border-radius: 0.5rem;
+    padding: 0.75rem 0.5rem 0.75rem 1rem;
 }
 
 .pdoc div:target > .attr,
