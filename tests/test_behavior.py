@@ -92,3 +92,11 @@ def test_scale_and_shift_invariance(toroidal, rng):
     H1 = hopkins(X, toroidal=toroidal, rng=42)
     H2 = hopkins(2 * X + 1, toroidal=toroidal, rng=42)
     assert H2 == pytest.approx(H1)  # noqa: SIM300
+
+
+def test_input_immutability(toroidal, rng):
+    X = rng.uniform(-1, 1, size=(N, D))
+    X_copy = X.copy()
+
+    hopkins(X, toroidal=toroidal)
+    assert np.array_equal(X, X_copy)
