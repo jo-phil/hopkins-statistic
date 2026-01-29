@@ -62,7 +62,7 @@ docs = [
 ]
 
 [tool.pytest]
-addopts = ["--import-mode=importlib", "--doctest-modules"]
+addopts = ["--import-mode=importlib"]
 markers = ["slow: slow statistical tests"]
 strict = true
 

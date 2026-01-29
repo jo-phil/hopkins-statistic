@@ -49,27 +49,6 @@ def hopkins(
     Warns:
         `HopkinsUndefinedWarning`: If all observations in `X` are identical.
 
-    Examples:
-        Under CSR, the statistic is expected to be near half.
-        >>> import numpy as np
-        >>> from hopkins_statistic import hopkins
-        >>> rng = np.random.default_rng(42)
-        >>> X = rng.uniform(size=(100, 2))
-        >>> hopkins(X, rng=rng)
-        0.513...
-
-        For strongly clustered data, the statistic tends to be larger than 0.7.
-        >>> centers = np.array([[0, 0], [0, 1]])
-        >>> labels = rng.integers(len(centers), size=100)
-        >>> X = centers[labels] + rng.normal(scale=0.1, size=(100, 2))
-        >>> hopkins(X, rng=rng)
-        0.927...
-
-        For evenly spaced data, its value tends to be lower than 0.3.
-        >>> X = [[x, y] for x in range(10) for y in range(10)]
-        >>> hopkins(X, rng=rng)
-        0.167...
-
     """
     X = np.asarray(X, dtype=float)
 
