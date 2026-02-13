@@ -15,8 +15,7 @@ __all__ = [
     "hopkins",
     "hopkins_test",
     "HopkinsTestResult",
-    "HopkinsUndefinedWarning",
 ]
 
 from ._inference import HopkinsTestResult, hopkins_test
-from ._statistic import HopkinsUndefinedWarning, hopkins
+from ._statistic import hopkins

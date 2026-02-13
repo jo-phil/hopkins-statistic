@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+
+- `HopkinsUndefinedWarning` and the explicit check for degenerate data;
+  degenerate cases now rely on NumPy to warn and still produce `NaN`.
+
 ## [0.3.1] - 2026-01-27
 
 ### Fixed

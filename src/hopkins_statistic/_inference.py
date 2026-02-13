@@ -73,9 +73,6 @@ def hopkins_test(
     Returns:
         The result of the Hopkins test (statistic and p-value).
 
-    Warns:
-        `HopkinsUndefinedWarning`: If all observations in `X` are identical.
-
     """
     X = np.asarray(X, dtype=float)
 

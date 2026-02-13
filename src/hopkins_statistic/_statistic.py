@@ -1,6 +1,5 @@
 import math
 import numbers
-import warnings
 from typing import Any
 
 import numpy as np
@@ -8,10 +7,6 @@ from numpy.typing import ArrayLike
 from scipy.spatial import KDTree
 
 from hopkins_statistic._typing import RNGLike, SeedLike
-
-
-class HopkinsUndefinedWarning(RuntimeWarning):
-    """Warning issued when the Hopkins statistic is undefined."""
 
 
 def hopkins(
@@ -46,9 +41,6 @@ def hopkins(
     Returns:
         The Hopkins statistic, a value between 0 and 1 (NaN if undefined).
 
-    Warns:
-        `HopkinsUndefinedWarning`: If all observations in `X` are identical.
-
     """
     X = np.asarray(X, dtype=float)
 
@@ -63,10 +55,6 @@ def hopkins(
         raise ValueError(msg)
 
     lower, upper = X.min(axis=0), X.max(axis=0)
-    if np.all(lower == upper):
-        msg = "All observations in X are identical."
-        warnings.warn(msg, HopkinsUndefinedWarning, stacklevel=2)
-        return math.nan
 
     boxsize = None
     if toroidal:
