@@ -53,18 +53,17 @@ def hopkins_test(
     """Perform a Hopkins test.
 
     The Hopkins test tests the null hypothesis of complete spatial
-    randomness by comparing the observed Hopkins statistic to its
+    randomness (CSR) by comparing the observed Hopkins statistic to its
     Beta(m, m) null distribution.
 
     Args:
         X: Array-like of shape `(n, d)`, with `n >= 3` observations
-            in `d >= 1` dimensions. Must contain only finite values.
+            in `d >= 1` dimensions. Must contain only finite real values.
         m: Sample size, or its fraction of `n`.
             - If int, this must satisfy `1 <= m <= n`.
             - If float, this must satisfy `0 < m <= 1`,
               and the sample size is `ceil(m * n)`.
-        toroidal: If True, compute the Hopkins statistic with
-            periodic boundary conditions.
+        toroidal: If True, compute distances with periodic boundary conditions.
         alternative: Alternative hypothesis of departure from CSR toward more
             `clustered` or `regular` data, or in either direction: `two-sided`.
         rng: Random number generator or seed passed to

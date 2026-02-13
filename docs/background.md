@@ -30,7 +30,7 @@ data in any dimension:
 > 
 > Then the Hopkins statistic is defined as
 > $$
->     H = \frac{\sum_{i=1}^m u_i^d}{\sum_{i=1}^m u_i^d + \sum_{i=1}^m w_i^d}.
+> H = \frac{\sum_{i=1}^m u_i^d}{\sum_{i=1}^m u_i^d + \sum_{i=1}^m w_i^d}.
 > $$
 >  
 > Under the CSR null hypothesis, $H \sim \mathrm{Beta}(m,m)$.
@@ -56,17 +56,18 @@ for interpreting $H$.
 - **Euclidean distances** on non-spatial data often benefit from scaling
   features in `X` to comparable ranges.
 
-- This implementation approximates the **sampling frame** as the
-  axis-aligned bounding box of `X`. Results are therefore relative to
-  that frame; if it is not a reasonable representation of the region the
-  data come from, `X` may be transformed beforehand.
-
-- The `toroidal` option enables periodic boundary conditions to mitigate
-  edge effects.
-
 - The **sample size** `m` should typically be at least 10 to avoid
   small-sample problems and no more than about one tenth of $n$ to
   keep the null-distribution approximations accurate.
+
+- The **sampling frame** is approximated by the axis-aligned bounding
+  box of `X`. Results are therefore relative to that frame; if it is not
+  a reasonable representation of the region the data come from, `X` may
+  be transformed beforehand.
+
+- To mitigate **edge effects**, e.g., when events may also occur outside
+  the sampling frame, periodic boundary conditions can be applied with
+  `toroidal=True`.
 
 - The **exponent** `power` applied to distances defaults to $d$, the
   number of columns in `X`. This yields the statistic as defined above.

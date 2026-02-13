@@ -31,8 +31,7 @@ def hopkins(
             - If int, this must satisfy `1 <= m <= n`.
             - If float, this must satisfy `0 < m <= 1`,
               and the sample size is `ceil(m * n)`.
-        toroidal: If True, compute nearest-neighbor distances with
-            periodic boundary conditions.
+        toroidal: If True, compute distances with periodic boundary conditions.
         power: Exponent applied to Euclidean distances. Defaults to `d`.
             Must be positive and finite.
         rng: Random number generator or seed passed to
