@@ -29,7 +29,7 @@ data in any dimension:
 >   $X \setminus \lbrace x_i \rbrace$.
 > 
 > Then the Hopkins statistic is defined as
-> $$ H = \frac{\sum_{i=1}^m u_i^d}{\sum_{i=1}^m u_i^d + \sum_{i=1}^m w_i^d}. $$
+> $$\\ H = \frac{\sum_{i=1}^m u_i^d}{\sum_{i=1}^m u_i^d + \sum_{i=1}^m w_i^d}. $$
 >  
 > Under the CSR null hypothesis, $H \sim \mathrm{Beta}(m,m)$.
 
