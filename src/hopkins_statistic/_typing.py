@@ -1,6 +1,6 @@
 import sys
 
-if sys.version_info >= (3, 13):
+if sys.version_info >= (3, 12):
     from typing import TypeAliasType
 else:
     from typing_extensions import TypeAliasType  # pragma: no cover
