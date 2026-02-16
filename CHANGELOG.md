@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-02-16
+
 ### Fixed
 
 - `ModuleNotFoundError` on Python 3.12 when `typing_extensions` was not
@@ -52,7 +54,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `hopkins()` to compute the Hopkins statistic for $d$-dimensional data
   following Cross & Jain (1982), using a (hyper-)rectangular sampling frame.
 
-[Unreleased]: https://github.com/jo-phil/hopkins-statistic/compare/0.3.1...HEAD
+[Unreleased]: https://github.com/jo-phil/hopkins-statistic/compare/0.4.0...HEAD
+[0.4.0]: https://github.com/jo-phil/hopkins-statistic/compare/0.3.1...0.4.0
 [0.3.1]: https://github.com/jo-phil/hopkins-statistic/compare/0.3.0...0.3.1
 [0.3.0]: https://github.com/jo-phil/hopkins-statistic/compare/0.2.0...0.3.0
 [0.2.0]: https://github.com/jo-phil/hopkins-statistic/compare/0.1.0...0.2.0
