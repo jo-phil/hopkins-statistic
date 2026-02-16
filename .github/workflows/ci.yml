@@ -70,7 +70,13 @@ jobs:
           cache-suffix: ${{ matrix.resolution }}
           python-version: ${{ matrix.python-version }}
 
-      - name: Install dependencies
+      - name: Install runtime dependencies
+        run: uv sync --no-dev --resolution ${{ matrix.resolution }}
+
+      - name: Smoke test
+        run: uv run --no-sync tests/smoke_test.py
+
+      - name: Install development dependencies
         run: uv sync --dev --resolution ${{ matrix.resolution }}
 
       - name: Run tests
