@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- `ModuleNotFoundError` on Python 3.12 when `typing_extensions` was not
+  installed.
+
 ### Removed
 
 - `HopkinsUndefinedWarning` and the explicit check for degenerate data;
