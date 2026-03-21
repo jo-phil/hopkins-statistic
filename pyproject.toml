@@ -13,7 +13,7 @@ requires-python = ">=3.11"
 dependencies = [
     "numpy>=2.0.0",
     "scipy>=1.13.0",
-    "typing_extensions >= 4.6.0; python_version < '3.12'",
+    "typing_extensions >= 4.6.0; python_version < '3.13'",
 ]
 
 keywords = [
@@ -87,16 +87,17 @@ line-length = 79
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
-    "COM812",   # redundant when using a formatter
-    "PLR2004",  # flags 2 as a magic number
-    "RUF022",   # prohibits functions first in __all__
+    "COM812",   # missing-trailing-comma, handled by formatter
+    "PLR0913",  # too-many-arguments, conflicts with a flat API design
+    "PLR2004",  # magic-value-comparison, considers 2 a magic number
+    "RUF022",   # unsorted-dunder-all, forbids functions first in __all__
 
     # irrelevant
     "AIR", "ASYNC", "DJ", "FAST", "PD", "PYI",
 ]
 
 [tool.ruff.lint.pep8-naming]
-extend-ignore-names = ["X", "H"]
+extend-ignore-names = ["X", "X_in", "H"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["ANN", "D", "N802", "N803", "N806", "S101"]

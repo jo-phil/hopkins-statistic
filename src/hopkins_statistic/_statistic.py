@@ -1,18 +1,22 @@
 import math
 import numbers
-from typing import Any
+from collections.abc import Sequence
+from typing import Literal, TypeAlias, cast
 
 import numpy as np
 from numpy.typing import ArrayLike
 from scipy.spatial import KDTree
 
-from hopkins_statistic._typing import RNGLike, SeedLike
+from ._typing import Array, Array1D, Array2D, RNGLike, SeedLike
+
+Frame: TypeAlias = Literal["bbox"] | tuple[ArrayLike, ArrayLike] | ArrayLike
 
 
 def hopkins(
     X: ArrayLike,
     *,
     m: int | float = 0.1,
+    frame: Frame = "bbox",
     toroidal: bool = False,
     power: int | float | None = None,
     rng: RNGLike | SeedLike | None = None,
@@ -21,16 +25,21 @@ def hopkins(
 
     The Hopkins statistic measures clustering tendency by comparing
     nearest-neighbor distances of sampled data points with those of
-    points placed uniformly at random in the sampling frame, here
-    approximated by the axis-aligned bounding box of `X`.
+    points placed uniformly at random in the sampling frame.
 
     Args:
         X: Array-like of shape `(n, d)`, with `n >= 3` observations
-            in `d >= 1` dimensions. Must contain only finite values.
-        m: Sample size, or its fraction of `n`.
-            - If int, this must satisfy `1 <= m <= n`.
+            in `d >= 1` dimensions. Must contain only finite real values.
+        m: Sample size, or its fraction of `n_in` points in the frame.
+            - If int, this must satisfy `1 <= m <= n_in`.
             - If float, this must satisfy `0 < m <= 1`,
-              and the sample size is `ceil(m * n)`.
+              and the sample size is `ceil(m * n_in)`.
+        frame: Area sampling frame. Must be one of:
+            - Literal `"bbox"` to use the axis-aligned bounding box of `X`, or
+            - Pair `(lower, upper)` defining the bounds of a rectangular
+              sampling frame. Both must be broadcastable to shape `(d,)`.
+              While data points outside a given frame are ignored during
+              sampling, they can still be nearest neighbors.
         toroidal: If True, compute distances with periodic boundary conditions.
         power: Exponent applied to Euclidean distances. Defaults to `d`.
             Must be positive and finite.
@@ -41,10 +50,25 @@ def hopkins(
         The Hopkins statistic, a value between 0 and 1 (NaN if undefined).
 
     """
+    statistic, _ = _hopkins(
+        X, m=m, frame=frame, toroidal=toroidal, power=power, rng=rng
+    )
+    return statistic
+
+
+def _hopkins(
+    X: ArrayLike,
+    *,
+    m: int | float,
+    frame: Frame,
+    toroidal: bool,
+    power: int | float | None,
+    rng: RNGLike | SeedLike | None,
+) -> tuple[float, int]:
     X = np.asarray(X, dtype=float)
 
-    n, d = _validate_shape(X)
-    m = _parse_m(m, n)
+    d = _validate_shape(X)
+    lower, upper = _parse_frame(X, frame)
     toroidal = _parse_toroidal(toroidal)
     power = _parse_power(power, d)
     rng = np.random.default_rng(rng)
@@ -53,16 +77,21 @@ def hopkins(
         msg = "X must contain only finite values; found NaN or inf."
         raise ValueError(msg)
 
-    lower, upper = X.min(axis=0), X.max(axis=0)
-
     boxsize = None
     if toroidal:
         X = np.asarray(X - lower)
-        lower, upper = 0, upper - lower
+        lower, upper = np.zeros(d), upper - lower
         boxsize = np.nextafter(upper, np.inf)
 
+    if frame != "bbox":
+        X_in = X[np.all((lower <= X) & (upper >= X), axis=1)]
+    else:
+        X_in = X
+
+    m = _parse_m(m, len(X_in))
+
     null_sample = rng.uniform(lower, upper, size=(m, d))
-    data_sample = X[rng.choice(n, size=m, replace=False)]
+    data_sample = X_in[rng.choice(len(X_in), size=m, replace=False)]
 
     tree = KDTree(X, boxsize=boxsize)
     u = tree.query(null_sample, k=1)[0]
@@ -71,12 +100,10 @@ def hopkins(
     u_sum = np.sum(u**power)
     w_sum = np.sum(w**power)
 
-    return float(u_sum / (u_sum + w_sum))
+    return float(u_sum / (u_sum + w_sum)), m
 
 
-def _validate_shape(
-    X: np.ndarray[Any, np.dtype[np.float64]],
-) -> tuple[int, int]:
+def _validate_shape(X: Array[np.float64]) -> int:
     if X.ndim != 2:
         msg = f"X must be a 2D array of shape (n, d); got shape {X.shape}."
         raise ValueError(msg)
@@ -89,7 +116,7 @@ def _validate_shape(
         msg = "X must have at least 1 feature (d >= 1); got d=0."
         raise ValueError(msg)
 
-    return n, d
+    return int(d)
 
 
 def _parse_m(m: int | float, n: int) -> int:
@@ -107,6 +134,47 @@ def _parse_m(m: int | float, n: int) -> int:
 
     msg = f"m must be int or float; got {type(m).__name__}."
     raise TypeError(msg)
+
+
+def _parse_frame(
+    X: Array2D[np.float64], frame: Frame
+) -> tuple[Array1D[np.float64], Array1D[np.float64]]:
+    if frame == "bbox":
+        return X.min(axis=0), X.max(axis=0)
+
+    if isinstance(frame, (str, bytes)) or not isinstance(
+        frame, (Sequence, np.ndarray)
+    ):
+        msg = (
+            "frame must be 'bbox' or a pair of bounds (lower, upper); "
+            f"got {type(frame).__name__}."
+        )
+        raise TypeError(msg)
+
+    if len(frame) != 2:
+        msg = (
+            "frame must be a pair of bounds (lower, upper); "
+            f"got {len(frame)} elements."
+        )
+        raise ValueError(msg)
+
+    lower, upper = cast("tuple[ArrayLike, ArrayLike]", frame)
+    lower = np.asarray(lower, dtype=float)
+    upper = np.asarray(upper, dtype=float)
+
+    msg = "lower and upper bounds must each be broadcastable to shape (d,)."
+    try:
+        shape = np.broadcast_shapes(lower.shape, upper.shape, (X.shape[1],))
+    except ValueError:
+        raise ValueError(msg) from None
+    if shape != (X.shape[1],):
+        raise ValueError(msg)
+
+    if np.any(lower > upper):
+        msg = "lower bounds must be less than upper bounds."
+        raise ValueError(msg)
+
+    return lower, upper
 
 
 def _parse_toroidal(toroidal: bool) -> bool:  # noqa: FBT001
