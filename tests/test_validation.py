@@ -67,6 +67,33 @@ def test_m_float_must_satisfy_bounds(hopkins_func, m):
         hopkins_func(X, m=m)
 
 
+def test_valid_frame_is_accepted():
+    assert 0 < hopkins(X, frame=(X.min(axis=0), X.max(axis=0))) < 1
+
+
+@pytest.mark.parametrize("frame", ["box", 1])
+def test_frame_must_be_of_valid_type(frame):
+    with pytest.raises(TypeError, match=r"frame must be 'bbox' or a pair"):
+        hopkins(X, frame=frame)
+
+
+@pytest.mark.parametrize("frame", [[], [1, 2, 3]])
+def test_frame_must_be_a_pair(frame):
+    with pytest.raises(ValueError, match=r"must be a pair"):
+        hopkins(X, frame=frame)
+
+
+@pytest.mark.parametrize("X", [X, np.empty((3, 2))])
+def test_frame_must_be_broadcastable(X):
+    with pytest.raises(ValueError, match=r"broadcastable to shape \(d,\)"):
+        hopkins(X, frame=(0, np.ones(3)))
+
+
+def test_frame_upper_bounds_must_be_feasible():
+    with pytest.raises(ValueError, match=r"lower bounds must be less"):
+        hopkins(X, frame=(1, 0))
+
+
 def test_toroidal_must_be_bool():
     with pytest.raises(TypeError, match=r"toroidal must be bool"):
         hopkins(X, toroidal=1)  # type: ignore[arg-type]
