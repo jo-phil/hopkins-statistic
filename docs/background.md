@@ -59,10 +59,10 @@ for interpreting $H$.
   small-sample problems and no more than about one tenth of $n$ to
   keep the null-distribution approximations accurate.
 
-- The **sampling frame** is approximated by the axis-aligned bounding
-  box of `X`. Results are therefore relative to that frame; if it is not
-  a reasonable representation of the region the data come from, `X` may
-  be transformed beforehand.
+- The **sampling frame** defaults to the axis-aligned bounding box 
+  of `X`. A known rectangular frame can be specified using the `frame`
+  parameter. If the underlying sampling frame is not aligned with the
+  coordinate axes, `X` may be transformed beforehand.
 
 - To mitigate **edge effects**, e.g., when events may also occur outside
   the sampling frame, periodic boundary conditions can be applied with
