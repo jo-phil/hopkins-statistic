@@ -30,7 +30,9 @@ def seed(request):
 def test_null(d, toroidal, rng):
     m = N // 10
     Xs = rng.uniform(size=(1000, N, d))
-    Hs = [hopkins(X, m=m, toroidal=toroidal, rng=rng) for X in Xs]
+    Hs = [
+        hopkins(X, m=m, frame=(0, 1), toroidal=toroidal, rng=rng) for X in Xs
+    ]
 
     # Using toroidal topology, the empirical distribution of the
     # statistic is closer to the theoretical beta distribution.
@@ -73,6 +75,18 @@ def test_extreme_clustering(toroidal):
     assert hopkins(X, toroidal=toroidal) == 1.0
 
 
+def test_enlarged_bounds(toroidal, rng):
+    X = rng.uniform(size=(N, D))
+
+    result = hopkins_test(X, toroidal=toroidal, rng=rng)
+    assert 0.4 < result.statistic < 0.6
+    assert result.pvalue > 0.1
+
+    result = hopkins_test(X, frame=(0, 1.4), toroidal=toroidal, rng=rng)
+    assert result.statistic > 0.7
+    assert result.pvalue < 0.001
+
+
 def test_toroidal_vertices(rng):
     X = list(itertools.product([0, 1], repeat=7))
     assert hopkins(X, toroidal=False, rng=rng) < 0.3
@@ -96,7 +110,10 @@ def test_scale_and_shift_invariance(toroidal, rng):
 
 def test_input_immutability(toroidal, rng):
     X = rng.uniform(-1, 1, size=(N, D))
-    X_copy = X.copy()
+    lower, upper = -np.ones(D), np.ones(D)
+    X_copy, lower_copy, upper_copy = X.copy(), lower.copy(), upper.copy()
 
-    hopkins(X, toroidal=toroidal)
+    hopkins(X, frame=(lower, upper), toroidal=toroidal)
     assert np.array_equal(X, X_copy)
+    assert np.array_equal(lower, lower_copy)
+    assert np.array_equal(upper, upper_copy)
