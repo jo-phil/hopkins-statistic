@@ -66,7 +66,8 @@ for interpreting $H$.
 
 - To mitigate **edge effects**, e.g., when events may also occur outside
   the sampling frame, periodic boundary conditions can be applied with
-  `toroidal=True`.
+  `toroidal=True`. Alternatively, buffer zones can be used by specifying
+  a `frame` smaller than the full extent of `X`.
 
 - The **exponent** `power` applied to distances defaults to $d$, the
   number of columns in `X`. This yields the statistic as defined above.
