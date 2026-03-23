@@ -27,16 +27,22 @@ def seed(request):
 
 @pytest.mark.slow
 @pytest.mark.parametrize("d", [2, 3, 5], ids=lambda val: f"d={val}")
-def test_null(d, toroidal, rng):
+@pytest.mark.parametrize("edge_correction", [None, "buffer", "toroidal"])
+def test_null(d, edge_correction, rng):
     m = N // 10
-    Xs = rng.uniform(size=(1000, N, d))
-    Hs = [
-        hopkins(X, m=m, frame=(0, 1), toroidal=toroidal, rng=rng) for X in Xs
-    ]
 
-    # Using toroidal topology, the empirical distribution of the
-    # statistic is closer to the theoretical beta distribution.
-    tol = 0.01 if toroidal else 0.05
+    # Using buffer zones to correct for edge effects, specify a frame that
+    # expectedly contains about N datapoints (0.7^d ~ 1/d for d in {2, 3, 5}).
+    n = d * N if edge_correction == "buffer" else N
+    frame = (0.15, 0.85) if edge_correction == "buffer" else (0, 1)
+    toroidal = edge_correction == "toroidal"
+
+    Xs = rng.uniform(size=(1000, n, d))
+    Hs = [hopkins(X, m=m, frame=frame, toroidal=toroidal, rng=rng) for X in Xs]
+
+    # When correcting for edge effects, the empirical distribution of
+    # the statistic is closer to the theoretical beta distribution.
+    tol = 0.01 if edge_correction else 0.05
 
     assert np.mean(Hs) == pytest.approx(0.5, abs=tol)
     assert np.std(Hs) == pytest.approx(beta.std(m, m), abs=tol)
