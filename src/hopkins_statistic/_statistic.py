@@ -122,7 +122,7 @@ def _validate_shape(X: Array[np.float64]) -> int:
 def _parse_m(m: int | float, n: int) -> int:
     if isinstance(m, numbers.Integral) and not isinstance(m, bool):
         if not 1 <= m <= n:
-            msg = f"m must satisfy 1 <= m <= n; got m={m}, n={n}."
+            msg = f"m must satisfy 1 <= m <= n_in; got m={m}, n_in={n}."
             raise ValueError(msg)
         return int(m)
 
