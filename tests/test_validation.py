@@ -96,6 +96,11 @@ def test_frame_upper_bounds_must_be_feasible():
         hopkins(X, frame=(1, 0))
 
 
+def test_frame_with_buffer_zones_cannot_be_toroidal():
+    with pytest.raises(ValueError, match=r"periodic box"):
+        hopkins(X, frame=(0, 1), toroidal=True)
+
+
 def test_toroidal_must_be_bool():
     with pytest.raises(TypeError, match=r"toroidal must be bool"):
         hopkins(X, toroidal=1)  # type: ignore[arg-type]
