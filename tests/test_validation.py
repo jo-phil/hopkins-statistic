@@ -68,7 +68,9 @@ def test_m_float_must_satisfy_bounds(hopkins_func, m):
 
 
 def test_valid_frame_is_accepted():
-    assert 0 < hopkins(X, frame=(X.min(axis=0), X.max(axis=0))) < 1
+    assert hopkins(X, frame="bbox", rng=42) == hopkins(
+        X, frame=(X.min(axis=0), X.max(axis=0)), rng=42
+    )
 
 
 @pytest.mark.parametrize("frame", ["box", 1])
