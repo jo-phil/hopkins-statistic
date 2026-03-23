@@ -60,12 +60,12 @@ def hopkins_test(
     Args:
         X: Array-like of shape `(n, d)`, with `n >= 3` observations
             in `d >= 1` dimensions. Must contain only finite real values.
-        m: Sample size, or its fraction of `n_in` points in the frame.
+        m: Sample size, or its fraction of `n_in` points in the `frame`.
             - If int, this must satisfy `1 <= m <= n_in`.
             - If float, this must satisfy `0 < m <= 1`,
               and the sample size is `ceil(m * n_in)`.
         frame: Area sampling frame. Must be one of:
-            - Literal `"bbox"` to use the axis-aligned bounding box of `X`, or
+            - Literal `bbox` to use the axis-aligned bounding box of `X`, or
             - Pair `(lower, upper)` defining the bounds of a rectangular
               sampling frame. Both must be broadcastable to shape `(d,)`.
               While data points outside a given frame are ignored during
