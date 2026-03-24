@@ -85,6 +85,9 @@ def _hopkins(
 
     if frame != "bbox":
         X_in = X[np.all((lower <= X) & (upper >= X), axis=1)]
+        if toroidal and len(X_in) < len(X):
+            msg = "Points must not be outside the frame in toroidal topology."
+            raise ValueError(msg)
     else:
         X_in = X
 
