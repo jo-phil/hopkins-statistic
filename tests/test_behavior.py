@@ -71,7 +71,7 @@ def test_clustering(toroidal, seed):
     assert result.statistic > 0.7
     assert result.pvalue < 0.001
 
-    heuristic = hopkins(X, power=1, rng=seed)
+    heuristic = hopkins(X, toroidal=toroidal, power=1, rng=seed)
     assert heuristic != pytest.approx(result.statistic)
     assert heuristic > 0.7
 
