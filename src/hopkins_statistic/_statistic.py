@@ -7,7 +7,7 @@ import numpy as np
 from numpy.typing import ArrayLike
 from scipy.spatial import KDTree
 
-from ._typing import Array, Array1D, Array2D, RNGLike, SeedLike
+from ._typing import FloatArray, FloatArray1D, FloatArray2D, RNGLike, SeedLike
 
 Frame: TypeAlias = Literal["bbox"] | tuple[ArrayLike, ArrayLike] | ArrayLike
 
@@ -106,7 +106,7 @@ def _hopkins(
     return float(u_sum / (u_sum + w_sum)), m
 
 
-def _validate_shape(X: Array[np.float64]) -> int:
+def _validate_shape(X: FloatArray) -> int:
     if X.ndim != 2:
         msg = f"X must be a 2D array of shape (n, d); got shape {X.shape}."
         raise ValueError(msg)
@@ -140,8 +140,8 @@ def _parse_m(m: int | float, n: int) -> int:
 
 
 def _parse_frame(
-    X: Array2D[np.float64], frame: Frame
-) -> tuple[Array1D[np.float64], Array1D[np.float64]]:
+    X: FloatArray2D, frame: Frame
+) -> tuple[FloatArray1D, FloatArray1D]:
     if frame == "bbox":
         return X.min(axis=0), X.max(axis=0)
 
