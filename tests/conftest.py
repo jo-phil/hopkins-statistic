@@ -5,8 +5,8 @@ from hopkins_statistic import hopkins, hopkins_test
 
 
 @pytest.fixture
-def rng():
-    return np.random.default_rng(42)
+def rng(request):
+    return np.random.default_rng(getattr(request, "param", 37))
 
 
 @pytest.fixture(params=[False, True], ids=["euclidean", "toroidal"])
