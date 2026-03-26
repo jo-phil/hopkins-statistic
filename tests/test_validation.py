@@ -67,43 +67,43 @@ def test_m_float_must_satisfy_bounds(hopkins_func, m):
         hopkins_func(X, m=m)
 
 
-def test_valid_frame_is_accepted():
-    assert hopkins(X, frame="bbox", rng=42) == hopkins(
+def test_valid_frame_is_accepted(hopkins_func):
+    assert hopkins_func(X, frame="bbox", rng=42) == hopkins_func(
         X, frame=(X.min(axis=0), X.max(axis=0)), rng=42
     )
 
 
 @pytest.mark.parametrize("frame", ["box", 1])
-def test_frame_must_be_of_valid_type(frame):
+def test_frame_must_be_of_valid_type(hopkins_func, frame):
     with pytest.raises(TypeError, match=r"frame must be 'bbox' or a pair"):
-        hopkins(X, frame=frame)
+        hopkins_func(X, frame=frame)
 
 
 @pytest.mark.parametrize("frame", [[], [1, 2, 3]])
-def test_frame_must_be_a_pair(frame):
+def test_frame_must_be_a_pair(hopkins_func, frame):
     with pytest.raises(ValueError, match=r"must be a pair"):
-        hopkins(X, frame=frame)
+        hopkins_func(X, frame=frame)
 
 
 @pytest.mark.parametrize("X", [X, np.empty((3, 2))])
-def test_frame_must_be_broadcastable(X):
+def test_frame_must_be_broadcastable(hopkins_func, X):
     with pytest.raises(ValueError, match=r"broadcastable to shape \(d,\)"):
-        hopkins(X, frame=(0, np.ones(3)))
+        hopkins_func(X, frame=(0, np.ones(3)))
 
 
-def test_frame_upper_bounds_must_be_feasible():
+def test_frame_upper_bounds_must_be_feasible(hopkins_func):
     with pytest.raises(ValueError, match=r"lower bounds must be less"):
-        hopkins(X, frame=(1, 0))
+        hopkins_func(X, frame=(1, 0))
 
 
-def test_frame_with_buffer_zones_cannot_be_toroidal():
+def test_frame_with_buffer_zones_cannot_be_toroidal(hopkins_func):
     with pytest.raises(ValueError, match=r"must not be outside the frame"):
-        hopkins(X, frame=(0, 1), toroidal=True)
+        hopkins_func(X, frame=(0, 1), toroidal=True)
 
 
-def test_toroidal_must_be_bool():
+def test_toroidal_must_be_bool(hopkins_func):
     with pytest.raises(TypeError, match=r"toroidal must be bool"):
-        hopkins(X, toroidal=1)  # type: ignore[arg-type]
+        hopkins_func(X, toroidal=1)
 
 
 @pytest.mark.parametrize("power", [True, "1"])
