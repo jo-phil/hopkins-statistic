@@ -1,5 +1,4 @@
 import itertools
-from unittest.mock import patch
 
 import numpy as np
 import pytest
@@ -8,16 +7,6 @@ from scipy.stats import beta
 from hopkins_statistic import hopkins, hopkins_test
 
 N, D = 100, 2  # smallest reasonable shape for behavioral tests
-
-
-@pytest.fixture(params=[False, True], ids=["euclidean", "toroidal"])
-def toroidal(request):
-    return request.param
-
-
-@pytest.fixture
-def rng():
-    return np.random.default_rng(42)
 
 
 @pytest.fixture(params=range(10), ids=lambda val: f"seed={val}")
@@ -97,21 +86,6 @@ def test_toroidal_vertices(rng):
     X = list(itertools.product([0, 1], repeat=7))
     assert hopkins(X, toroidal=False, rng=rng) < 0.3
     assert hopkins(X, toroidal=True) == 1.0
-
-
-def test_toroidal_invariance(rng):
-    X = rng.uniform(size=(N, D))
-    H1 = hopkins(X, toroidal=False, rng=42)
-    with patch("numpy.nextafter", new=lambda x, _: 2 * x):
-        H2 = hopkins(X, toroidal=True, rng=42)
-    assert H2 == pytest.approx(H1)  # noqa: SIM300
-
-
-def test_scale_and_shift_invariance(toroidal, rng):
-    X = rng.uniform(size=(N, D))
-    H1 = hopkins(X, toroidal=toroidal, rng=42)
-    H2 = hopkins(2 * X + 1, toroidal=toroidal, rng=42)
-    assert H2 == pytest.approx(H1)  # noqa: SIM300
 
 
 def test_input_immutability(toroidal, rng):

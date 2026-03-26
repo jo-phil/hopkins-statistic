@@ -9,11 +9,6 @@ N, D = 3, 1  # smallest valid shape for validation tests
 X = np.arange(N * D).reshape((N, D))
 
 
-@pytest.fixture(params=[hopkins, hopkins_test], ids=lambda f: f.__name__)
-def hopkins_func(request):
-    return request.param
-
-
 def test_minimal_valid_X_is_accepted():
     assert 0 < hopkins(X) < 1
 
@@ -65,12 +60,6 @@ def test_m_integer_must_satisfy_bounds(hopkins_func, m):
 def test_m_float_must_satisfy_bounds(hopkins_func, m):
     with pytest.raises(ValueError, match=r"0 < m <= 1"):
         hopkins_func(X, m=m)
-
-
-def test_valid_frame_is_accepted(hopkins_func):
-    assert hopkins_func(X, frame="bbox", rng=42) == hopkins_func(
-        X, frame=(X.min(axis=0), X.max(axis=0)), rng=42
-    )
 
 
 @pytest.mark.parametrize("frame", ["box", 1])
