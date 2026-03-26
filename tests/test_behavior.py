@@ -1,4 +1,5 @@
 import itertools
+from copy import deepcopy
 
 import numpy as np
 import pytest
@@ -7,11 +8,6 @@ from scipy.stats import beta
 from hopkins_statistic import hopkins, hopkins_test
 
 N, D = 100, 2  # smallest reasonable shape for behavioral tests
-
-
-@pytest.fixture(params=range(10), ids=lambda val: f"seed={val}")
-def seed(request):
-    return request.param
 
 
 @pytest.mark.slow
@@ -37,6 +33,7 @@ def test_null(d, edge_correction, rng):
     assert np.std(Hs) == pytest.approx(beta.std(m, m), abs=tol)
 
 
+@pytest.mark.parametrize("seed", range(10))
 def test_regularity(toroidal, seed):
     X = np.array(list(itertools.product(range(N), repeat=D)))
     result = hopkins_test(
@@ -50,17 +47,19 @@ def test_regularity(toroidal, seed):
     assert heuristic < 0.3
 
 
-def test_clustering(toroidal, seed):
-    rng = np.random.default_rng(seed)
+@pytest.mark.parametrize("rng", range(10), indirect=True)
+def test_clustering(toroidal, rng):
     corners = np.array(list(itertools.product([0, 1], repeat=D)))
     indices = rng.integers(len(corners), size=N)
     X = (corners[indices] + rng.normal(scale=0.1, size=(N, D))) % 1
 
-    result = hopkins_test(X, toroidal=toroidal, rng=seed)
+    rng_copy = deepcopy(rng)
+
+    result = hopkins_test(X, toroidal=toroidal, rng=rng)
     assert result.statistic > 0.7
     assert result.pvalue < 0.001
 
-    heuristic = hopkins(X, toroidal=toroidal, power=1, rng=seed)
+    heuristic = hopkins(X, toroidal=toroidal, power=1, rng=rng_copy)
     assert heuristic != pytest.approx(result.statistic)
     assert heuristic > 0.7
 
