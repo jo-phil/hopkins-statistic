@@ -2,6 +2,8 @@ from unittest.mock import patch
 
 import pytest
 
+from hopkins_statistic import hopkins_test
+
 
 @pytest.fixture
 def X(rng):
@@ -31,3 +33,16 @@ def test_toroidal_non_wrapping_equivalence(hopkins_func, X):
     with patch("numpy.nextafter", new=lambda x, _: 2 * x):
         toroidal = hopkins_func(X, toroidal=True, rng=42)
     assert toroidal == pytest.approx(non_toroidal)
+
+
+def test_alternative_invariance(X):
+    clustered = hopkins_test(X, alternative="clustered", rng=42)
+    regular = hopkins_test(X, alternative="regular", rng=42)
+    two_sided = hopkins_test(X, alternative="two-sided", rng=42)
+
+    assert clustered.statistic == regular.statistic == two_sided.statistic
+
+    assert clustered.pvalue == pytest.approx(1 - regular.pvalue)
+    assert two_sided.pvalue == pytest.approx(
+        2 * min(clustered.pvalue, regular.pvalue)
+    )
