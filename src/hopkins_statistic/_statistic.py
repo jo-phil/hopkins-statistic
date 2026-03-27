@@ -30,7 +30,7 @@ def hopkins(
     Args:
         X: Array-like of shape `(n, d)`, with `n >= 3` observations
             in `d >= 1` dimensions. Must contain only finite real values.
-        m: Sample size, or its fraction of `n_in` points in the `frame`.
+        m: Sample size, or its fraction of the `n_in` points in the `frame`.
             - If int, this must satisfy `1 <= m <= n_in`.
             - If float, this must satisfy `0 < m <= 1`,
               and the sample size is `ceil(m * n_in)`.
