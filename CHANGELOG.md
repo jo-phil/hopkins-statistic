@@ -7,10 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-03-27
+
 ### Added
 
 - `frame` parameter to `hopkins()` and `hopkins_test()` for specifying
-  a custom rectangular sampling frame by its bounds.
+  a custom rectangular sampling frame.
 
 ## [0.4.0] - 2026-02-16
 
@@ -59,7 +61,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `hopkins()` to compute the Hopkins statistic for $d$-dimensional data
   following Cross & Jain (1982), using a (hyper-)rectangular sampling frame.
 
-[Unreleased]: https://github.com/jo-phil/hopkins-statistic/compare/0.4.0...HEAD
+[Unreleased]: https://github.com/jo-phil/hopkins-statistic/compare/0.5.0...HEAD
+[0.5.0]: https://github.com/jo-phil/hopkins-statistic/compare/0.4.0...0.5.0
 [0.4.0]: https://github.com/jo-phil/hopkins-statistic/compare/0.3.1...0.4.0
 [0.3.1]: https://github.com/jo-phil/hopkins-statistic/compare/0.3.0...0.3.1
 [0.3.0]: https://github.com/jo-phil/hopkins-statistic/compare/0.2.0...0.3.0
