@@ -62,9 +62,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   following Cross & Jain (1982), using a (hyper-)rectangular sampling frame.
 
 [Unreleased]: https://github.com/jo-phil/hopkins-statistic/compare/0.5.0...HEAD
-[0.5.0]: https://github.com/jo-phil/hopkins-statistic/compare/0.4.0...0.5.0
-[0.4.0]: https://github.com/jo-phil/hopkins-statistic/compare/0.3.1...0.4.0
-[0.3.1]: https://github.com/jo-phil/hopkins-statistic/compare/0.3.0...0.3.1
-[0.3.0]: https://github.com/jo-phil/hopkins-statistic/compare/0.2.0...0.3.0
-[0.2.0]: https://github.com/jo-phil/hopkins-statistic/compare/0.1.0...0.2.0
+[0.5.0]: https://github.com/jo-phil/hopkins-statistic/releases/tag/0.5.0
+[0.4.0]: https://github.com/jo-phil/hopkins-statistic/releases/tag/0.4.0
+[0.3.1]: https://github.com/jo-phil/hopkins-statistic/releases/tag/0.3.1
+[0.3.0]: https://github.com/jo-phil/hopkins-statistic/releases/tag/0.3.0
+[0.2.0]: https://github.com/jo-phil/hopkins-statistic/releases/tag/0.2.0
 [0.1.0]: https://github.com/jo-phil/hopkins-statistic/releases/tag/0.1.0
