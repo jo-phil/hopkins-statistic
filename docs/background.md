@@ -1,4 +1,8 @@
-## Background
+---
+icon: lucide/graduation-cap
+---
+
+# Background
 
 The Hopkins statistic is a test statistic for the null hypothesis of
 complete spatial randomness (CSR), i.e., that points are independently
@@ -8,7 +12,7 @@ Larger values indicate more clustering than expected under CSR, while
 smaller values indicate more regular spacing. Thus, the statistic is
 often used as a scalar measure of clustering tendency.
 
-### Definition
+## Definition
 
 As noted by [Wright (2022)](#4), the definition of the Hopkins statistic is
 a common source of confusion in both literature and software implementations.
@@ -34,11 +38,11 @@ data in any dimension:
 >  
 > Under the CSR null hypothesis, $H \sim \mathrm{Beta}(m,m)$.
 
-> [!NOTE]
-> Other implementations may follow [Lawson and Jurs (1990)](#3) by not raising
-> distances to the power of $d$, or may return $1 - H$ instead of $H$.
+!!! note
+    Other implementations may follow [Lawson and Jurs (1990)](#lawson1990) by not
+    raising distances to the power of $d$, or may return $1 - H$ instead of $H$.
 
-### Interpretation
+## Interpretation
 
 While critical values can be obtained from the $\mathrm{Beta}(m,m)$
 null distribution, the table below lists commonly used rules of thumb

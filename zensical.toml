@@ -1,0 +1,78 @@
+[project]
+site_name = "hopkins-statistic documentation"
+site_description = "A Python package for computing the Hopkins statistic to assess clustering tendency."
+site_author = "Johann Philipp Gorzny"
+site_url = "https://jo-phil.github.io/hopkins-statistic/"
+repo_url = "https://github.com/jo-phil/hopkins-statistic"
+
+nav = [
+    {"Home" = "index.md"},
+    {"Background" = "background.md"},
+    {"API reference" = "api.md"},
+    {"Changelog" = "changelog.md"},
+    {"License" = "license.md"},
+]
+
+extra_javascript = [
+    "https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"
+]
+
+[project.theme]
+features = [
+    "content.code.copy",
+    "content.tabs.link",
+    "content.tooltips",
+    "navigation.footer",
+    "navigation.top",
+    "search.highlight",
+]
+
+[project.theme.icon]
+admonition = {"quote" = "lucide/sigma"}
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme)"
+toggle.icon = "lucide/sun-moon"
+toggle.name = "Switch to light mode"
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to system preference"
+
+[[project.extra.social]]
+icon = "simple/github"
+link = "https://github.com/jo-phil/hopkins-statistic"
+[[project.extra.social]]
+icon = "simple/pypi"
+link = "https://pypi.org/project/hopkins-statistic/"
+
+[project.markdown_extensions.admonition]
+[project.markdown_extensions.toc]
+permalink = true
+slugify.object = "changelog_slugs.Slugifier"
+
+[project.markdown_extensions.pymdownx.arithmatex]
+generic = true
+[project.markdown_extensions.pymdownx.snippets]
+base_path = ["."]
+[project.markdown_extensions.pymdownx.superfences]
+
+[project.plugins.mkdocstrings.handlers.python]
+inventories = [
+    "https://docs.python.org/3/objects.inv",
+    "https://numpy.org/doc/stable/objects.inv"
+]
+paths = ["src"]
+
+[project.plugins.mkdocstrings.handlers.python.options]
+docstring_style = "google"
+scoped_crossrefs = true
+show_root_heading = true
+show_root_toc_entry = false
+show_source = false

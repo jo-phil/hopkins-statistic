@@ -56,9 +56,9 @@ dev = [
     "scipy-stubs>=1.16.3.3",
 ]
 docs = [
-    "pdoc>=16.0.0",
-    "pygments>=2.19.2",
-    "pygments-styles>=0.3.0",
+    "changelog-slugs>=0.1.0",
+    "mkdocstrings-python>=2.0.3",
+    "zensical>=0.0.32",
 ]
 
 [tool.pytest]

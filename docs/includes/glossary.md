@@ -1,0 +1,2 @@
+
+*[CSR]: Complete Spatial Randomness
