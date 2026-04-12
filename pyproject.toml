@@ -91,9 +91,9 @@ line-length = 79
 select = ["ALL"]
 ignore = [
     "COM812",   # missing-trailing-comma, handled by formatter
+    "E501",     # line-too-long, handled by formatter
     "PLR0913",  # too-many-arguments, conflicts with a flat API design
     "PLR2004",  # magic-value-comparison, considers 2 a magic number
-    "RUF022",   # unsorted-dunder-all, forbids functions first in __all__
 
     # irrelevant
     "AIR", "ASYNC", "DJ", "FAST", "PD", "PYI",

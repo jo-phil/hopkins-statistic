@@ -7,7 +7,7 @@ import numpy as np
 from numpy.typing import ArrayLike
 from scipy.spatial import KDTree
 
-from ._typing import FloatArray, FloatArray1D, FloatArray2D, RNGLike, SeedLike
+from ._typing import FloatArray, FloatArray1D, FloatArray2D, ToRNG
 
 Frame: TypeAlias = Literal["bbox"] | tuple[ArrayLike, ArrayLike] | ArrayLike
 
@@ -19,7 +19,7 @@ def hopkins(
     frame: Frame = "bbox",
     toroidal: bool = False,
     power: int | float | None = None,
-    rng: RNGLike | SeedLike | None = None,
+    rng: ToRNG = None,
 ) -> float:
     """Compute the Hopkins statistic.
 
@@ -31,24 +31,27 @@ def hopkins(
         X: Array-like of shape `(n, d)`, with `n >= 3` observations
             in `d >= 1` dimensions. Must contain only finite real values.
         m: Sample size, or its fraction of the `n_in` points in the `frame`.
-            - If int, this must satisfy `1 <= m <= n_in`.
-            - If float, this must satisfy `0 < m <= 1`,
+
+            - If `int`, this must satisfy `1 <= m <= n_in`.
+            - If `float`, this must satisfy `0 < m <= 1`,
               and the sample size is `ceil(m * n_in)`.
+
         frame: Area sampling frame. Must be one of:
-            - Literal `bbox` to use the axis-aligned bounding box of `X`, or
+
+            - Literal `'bbox'` to use the axis-aligned bounding box of `X`, or
             - Pair `(lower, upper)` defining the bounds of a rectangular
               sampling frame. Both must be broadcastable to shape `(d,)`.
               While data points outside a given frame are ignored during
               sampling, they can still be nearest neighbors.
+
         toroidal: If True, compute distances with periodic boundary conditions.
         power: Exponent applied to Euclidean distances. Defaults to `d`.
             Must be positive and finite.
-        rng: Random number generator or seed passed to
-            `numpy.random.default_rng`. Specify for repeatable behavior.
+        rng: Random number generator or seed to be passed to
+            [`numpy.random.default_rng`][]. Specify for reproducibility.
 
     Returns:
         The Hopkins statistic, a value between 0 and 1 (NaN if undefined).
-
     """
     statistic, _ = _hopkins(
         X, m=m, frame=frame, toroidal=toroidal, power=power, rng=rng
@@ -63,7 +66,7 @@ def _hopkins(
     frame: Frame,
     toroidal: bool,
     power: int | float | None,
-    rng: RNGLike | SeedLike | None,
+    rng: ToRNG,
 ) -> tuple[float, int]:
     X = np.asarray(X, dtype=float)
 

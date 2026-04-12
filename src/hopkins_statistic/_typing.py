@@ -25,3 +25,4 @@ SeedLike = TypeAliasType(
     | SeedSequence
     | np.ndarray[Any, np.dtype[np.integer[Any]]],
 )
+ToRNG: TypeAlias = RNGLike | SeedLike | None

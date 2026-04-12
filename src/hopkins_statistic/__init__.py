@@ -1,12 +1,14 @@
 """Compute the Hopkins statistic to assess clustering tendency.
 
-Main entry points are the `hopkins` and `hopkins_test` functions.
+Functions:
+    hopkins: Compute the Hopkins statistic.
+    hopkins_test: Perform a Hopkins test.
 """
 
 __all__ = [
+    "HopkinsTestResult",
     "hopkins",
     "hopkins_test",
-    "HopkinsTestResult",
 ]
 
 from ._inference import HopkinsTestResult, hopkins_test

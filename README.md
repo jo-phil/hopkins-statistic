@@ -7,6 +7,8 @@
 [![Docs](https://github.com/jo-phil/hopkins-statistic/actions/workflows/docs.yml/badge.svg)](https://jo-phil.github.io/hopkins-statistic/ "Read the documentation")
 [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.18172791-blue)](https://doi.org/10.5281/zenodo.18172791 "View on Zenodo")
 
+[//]: # (--8<-- [start:opener])
+
 hopkins-statistic is a library for computing the Hopkins statistic to assess
 clustering tendency (also known as clusterability) by testing for departure from
 complete spatial randomness (CSR) in point patterns.
@@ -17,11 +19,15 @@ the original definition by Hopkins and Skellam (1954). Because the resulting
 statistic follows a beta distribution under the null hypothesis, *p*-values can
 be computed analytically.
 
+[//]: # (--8<-- [end:opener])
+
 ## Installation
 
 ```bash
 pip install hopkins-statistic
 ```
+
+[//]: # (--8<-- [start:usage])
 
 ## Usage
 
@@ -43,5 +49,4 @@ print(f"{statistic:.3f}")
 
 ## License
 
-MIT.
-See [LICENSE](https://github.com/jo-phil/hopkins-statistic/blob/main/LICENSE).
+[MIT](https://jo-phil.github.io/hopkins-statistic/license/)

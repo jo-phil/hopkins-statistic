@@ -52,7 +52,9 @@ link = "https://github.com/jo-phil/hopkins-statistic"
 icon = "simple/pypi"
 link = "https://pypi.org/project/hopkins-statistic/"
 
+[project.markdown_extensions.abbr]
 [project.markdown_extensions.admonition]
+[project.markdown_extensions.attr_list]
 [project.markdown_extensions.toc]
 permalink = true
 slugify.object = "changelog_slugs.Slugifier"
@@ -60,8 +62,12 @@ slugify.object = "changelog_slugs.Slugifier"
 [project.markdown_extensions.pymdownx.arithmatex]
 generic = true
 [project.markdown_extensions.pymdownx.snippets]
+auto_append = ["docs/includes/glossary.md"]
 base_path = ["."]
 [project.markdown_extensions.pymdownx.superfences]
+[project.markdown_extensions.pymdownx.tabbed]
+alternate_style = true
+combine_header_slug = true
 
 [project.plugins.mkdocstrings.handlers.python]
 inventories = [
@@ -73,6 +79,7 @@ paths = ["src"]
 [project.plugins.mkdocstrings.handlers.python.options]
 docstring_style = "google"
 scoped_crossrefs = true
+separate_signature = true
 show_root_heading = true
 show_root_toc_entry = false
 show_source = false
