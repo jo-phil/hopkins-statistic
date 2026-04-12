@@ -29,14 +29,11 @@ jobs:
         run: echo "RELEASE_VERSION=$(uv version --short)" >> $GITHUB_ENV
 
       - name: Build the documentation
-        run: make docs
-        env:
-          GITHUB_REPO_URL: ${{ github.server_url }}/${{ github.repository }}
-          PYPI_PROJECT_URL: ${{ vars.PYPI_PROJECT_URL }}
+        run: uv run zensical build
 
       - uses: actions/upload-pages-artifact@v4
         with:
-          path: docs/html
+          path: site
 
   deploy:
     needs: build
