@@ -1,6 +1,5 @@
 from typing import Literal, NamedTuple, TypeAlias
 
-import numpy as np
 from numpy.typing import ArrayLike
 from scipy.stats import beta
 
@@ -82,8 +81,6 @@ def hopkins_test(
     Returns:
         The result of the Hopkins test (statistic and p-value).
     """
-    X = np.asarray(X, dtype=float)
-
     statistic, m = _hopkins(
         X, m=m, frame=frame, toroidal=toroidal, power=None, rng=rng
     )
