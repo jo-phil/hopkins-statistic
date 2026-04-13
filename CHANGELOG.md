@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+
+- `typing_extensions` dependency for Python 3.11.
+
 [//]: # (--8<-- [start:released])
 
 ## [0.5.0] - 2026-03-27
