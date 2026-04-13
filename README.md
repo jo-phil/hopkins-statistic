@@ -27,8 +27,6 @@ be computed analytically.
 pip install hopkins-statistic
 ```
 
-[//]: # (--8<-- [start:usage])
-
 ## Usage
 
 ```python
@@ -36,17 +34,13 @@ import numpy as np
 from hopkins_statistic import hopkins
 
 rng = np.random.default_rng(42)
-
-# Simple clustered example: two Gaussian blobs
-centers = np.array([[0, 0], [0, 1]])
-labels = rng.integers(len(centers), size=100)
-X = centers[labels] + rng.normal(scale=0.1, size=(100, 2))
+X = rng.uniform(size=(100, 2))
 
 statistic = hopkins(X, rng=rng)
 print(f"{statistic:.3f}")
-#> 0.771
+#> 0.514
 ```
 
 ## License
 
-[MIT](https://jo-phil.github.io/hopkins-statistic/license/)
+[MIT](https://github.com/jo-phil/hopkins-statistic/blob/main/LICENSE)

@@ -55,19 +55,28 @@ link = "https://pypi.org/project/hopkins-statistic/"
 [project.markdown_extensions.abbr]
 [project.markdown_extensions.admonition]
 [project.markdown_extensions.attr_list]
+[project.markdown_extensions.md_in_html]
 [project.markdown_extensions.toc]
 permalink = true
 slugify.object = "changelog_slugs.Slugifier"
 
 [project.markdown_extensions.pymdownx.arithmatex]
 generic = true
+
 [project.markdown_extensions.pymdownx.snippets]
 auto_append = ["docs/includes/glossary.md"]
 base_path = ["."]
-[project.markdown_extensions.pymdownx.superfences]
+
+[[project.markdown_extensions.pymdownx.superfences.custom_fences]]
+name = "python"
+class = "python"
+validator = "markdown_exec.validator"
+format = "markdown_exec.formatter"
+
 [project.markdown_extensions.pymdownx.tabbed]
 alternate_style = true
 combine_header_slug = true
+slugify = { object = "pymdownx.slugs.slugify", kwds = { case = "lower" } }
 
 [project.plugins.mkdocstrings.handlers.python]
 inventories = [

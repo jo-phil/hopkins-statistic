@@ -57,6 +57,7 @@ dev = [
 ]
 docs = [
     "changelog-slugs>=0.1.0",
+    "markdown-exec>=1.12.1",
     "mkdocstrings-python>=2.0.3",
     "zensical>=0.0.32",
 ]

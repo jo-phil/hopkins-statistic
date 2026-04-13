@@ -27,4 +27,28 @@ icon: lucide/house
     uv pip install hopkins-statistic
     ```
 
---8<-- "README.md:usage"
+## Usage
+
+=== "Hopkins statistic"
+
+    ```python exec="1" source="material-block" result="python { .no-copy }"
+    import numpy as np
+    from hopkins_statistic import hopkins
+
+    rng = np.random.default_rng(42)
+    X = rng.uniform(size=(100, 2))
+    
+    print(hopkins(X, rng=rng))
+    ```
+
+=== "Hopkins test"
+
+    ```python exec="1" source="material-block" result="python { .no-copy }"
+    import numpy as np
+    from hopkins_statistic import hopkins_test
+    
+    rng = np.random.default_rng(42)
+    X = rng.uniform(size=(100, 2))
+    
+    print(hopkins_test(X, rng=rng))
+    ```
