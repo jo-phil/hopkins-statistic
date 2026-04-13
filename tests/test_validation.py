@@ -122,4 +122,4 @@ def test_valid_alternative_is_accepted(alternative):
 
 def test_invalid_alternative_is_rejected():
     with pytest.raises(ValueError, match=r"Invalid alternative"):
-        hopkins_test(X, alternative="")  # type: ignore[arg-type]
+        hopkins_test(X, alternative="")  # ty: ignore[invalid-argument-type]

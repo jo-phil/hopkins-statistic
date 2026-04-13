@@ -44,7 +44,7 @@ jobs:
         run: uv run --no-sync ruff format --check --output-format=github
 
       - name: Check typing
-        run: uv run --no-sync mypy
+        run: uv run --no-sync ty check --output-format=github
 
   test:
     needs: lint

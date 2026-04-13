@@ -82,7 +82,7 @@ def _hopkins(
 
     boxsize = None
     if toroidal:
-        X = np.asarray(X - lower)
+        X = X - lower
         lower, upper = np.zeros(d), upper - lower
         boxsize = np.nextafter(upper, np.inf)
 
