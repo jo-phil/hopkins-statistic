@@ -43,4 +43,4 @@ print(f"{statistic:.3f}")
 
 ## License
 
-[MIT](https://github.com/jo-phil/hopkins-statistic/blob/main/LICENSE)
+This project is licensed under the terms of the MIT license.
