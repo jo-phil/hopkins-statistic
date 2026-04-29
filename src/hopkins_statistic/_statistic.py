@@ -27,7 +27,7 @@ def hopkins(
     nearest-neighbor distances of sampled data points with those of
     points placed uniformly at random in the sampling frame.
 
-    Args:
+    Parameters:
         X: Array-like of shape `(n, d)`, with `n >= 3` observations
             in `d >= 1` dimensions. Must contain only finite real values.
         m: Sample size, or its fraction of the `n_in` points in the `frame`.
