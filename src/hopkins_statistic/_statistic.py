@@ -97,7 +97,7 @@ def _hopkins(
     m = _parse_m(m, len(X_in))
 
     null_sample = rng.uniform(lower, upper, size=(m, d))
-    data_sample = X_in[rng.choice(len(X_in), size=m, replace=False)]
+    data_sample = rng.choice(X_in, size=m, replace=False, axis=0)
 
     tree = KDTree(X, boxsize=boxsize)
     u = tree.query(null_sample, k=1)[0]
