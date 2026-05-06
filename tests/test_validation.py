@@ -70,7 +70,7 @@ def test_frame_must_be_of_valid_type(hopkins_func, frame):
 
 @pytest.mark.parametrize("frame", [[], [1, 2, 3]])
 def test_frame_must_be_a_pair(hopkins_func, frame):
-    with pytest.raises(ValueError, match=r"must be a pair"):
+    with pytest.raises(ValueError, match=r"frame must be 'bbox' or a pair"):
         hopkins_func(X, frame=frame)
 
 

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
-from typing import Literal, TypeAlias, cast
+from typing import Literal, TypeAlias
 
 import numpy as np
 from numpy.typing import ArrayLike
@@ -52,27 +52,20 @@ class Box(SamplingFrame):
 
 
 def resolve_frame(X: FloatArray2D, frame: Frame) -> SamplingFrame:
-    if frame == "bbox":
-        return Box(np.min(X, axis=0), np.max(X, axis=0), dim=X.shape[1])
-
-    if isinstance(frame, (str, bytes)) or not isinstance(
-        frame, (Sequence, np.ndarray)
-    ):
-        msg = (
-            "frame must be 'bbox' or a pair of bounds (lower, upper); "
-            f"got {type(frame).__name__}."
-        )
-        raise TypeError(msg)
-
-    if len(frame) != 2:
-        msg = (
-            "frame must be a pair of bounds (lower, upper); "
-            f"got {len(frame)} elements."
-        )
-        raise ValueError(msg)
-
-    lower, upper = cast("tuple[ArrayLike, ArrayLike]", frame)
-    lower = np.asarray(lower, dtype=float)
-    upper = np.asarray(upper, dtype=float)
-
-    return Box(lower, upper, dim=X.shape[1])
+    match frame:
+        case "bbox":
+            return Box(np.min(X, axis=0), np.max(X, axis=0), dim=X.shape[1])
+        case [lower, upper]:
+            return Box(lower, upper, dim=X.shape[1])
+        case Sequence() | np.ndarray() if not isinstance(frame, str | bytes):
+            msg = (
+                "frame must be 'bbox' or a pair of bounds (lower, upper); "
+                f"got {type(frame).__name__} of length {len(frame)}."
+            )
+            raise ValueError(msg)
+        case _:
+            msg = (
+                "frame must be 'bbox' or a pair of bounds (lower, upper); "
+                f"got {type(frame).__name__}."
+            )
+            raise TypeError(msg)
