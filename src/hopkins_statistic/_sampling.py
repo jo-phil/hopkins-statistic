@@ -25,6 +25,9 @@ class Box(SamplingFrame):
     def __init__(
         self, lower: ArrayLike, upper: ArrayLike, *, dim: int
     ) -> None:
+        lower = np.asarray(lower, dtype=float)
+        upper = np.asarray(upper, dtype=float)
+
         try:
             lower = np.broadcast_to(lower, (dim,))
             upper = np.broadcast_to(upper, (dim,))
