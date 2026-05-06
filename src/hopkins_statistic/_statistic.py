@@ -108,7 +108,7 @@ def _apply_toroidal_topology(
 ) -> tuple[FloatArray2D, SamplingFrame, FloatArray1D]:
     if not isinstance(frame, Box):
         msg = "toroidal topology requires a rectangular frame"
-        raise TypeError(msg)
+        raise ValueError(msg)  # noqa: TRY004
 
     X = X - frame.lower
     frame = Box(
