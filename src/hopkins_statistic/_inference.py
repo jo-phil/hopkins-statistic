@@ -3,7 +3,8 @@ from typing import Literal, NamedTuple, TypeAlias
 from numpy.typing import ArrayLike
 from scipy.stats import beta
 
-from ._statistic import Frame, _hopkins
+from ._sampling import Frame
+from ._statistic import _hopkins
 from ._typing import ToRNG
 
 Alternative: TypeAlias = Literal["clustered", "regular", "two-sided"]

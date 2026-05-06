@@ -4,6 +4,7 @@ from typing import Any, TypeAlias
 import numpy as np
 from numpy.random import BitGenerator, Generator, SeedSequence
 
+BoolArray1D: TypeAlias = np.ndarray[tuple[int], np.dtype[np.bool_]]
 FloatArray: TypeAlias = np.ndarray[Any, np.dtype[np.float64]]
 FloatArray1D: TypeAlias = np.ndarray[tuple[int], np.dtype[np.float64]]
 FloatArray2D: TypeAlias = np.ndarray[tuple[int, int], np.dtype[np.float64]]

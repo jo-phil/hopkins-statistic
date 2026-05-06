@@ -1,15 +1,12 @@
 import math
 import numbers
-from collections.abc import Sequence
-from typing import Literal, TypeAlias, cast
 
 import numpy as np
 from numpy.typing import ArrayLike
 from scipy.spatial import KDTree
 
+from ._sampling import Box, Frame, SamplingFrame, resolve_frame
 from ._typing import FloatArray, FloatArray1D, FloatArray2D, ToRNG
-
-Frame: TypeAlias = Literal["bbox"] | tuple[ArrayLike, ArrayLike] | ArrayLike
 
 
 def hopkins(
@@ -71,7 +68,6 @@ def _hopkins(
     X = np.asarray(X, dtype=float)
 
     d = _validate_shape(X)
-    lower, upper = _parse_frame(X, frame)
     toroidal = _parse_toroidal(toroidal)
     power = _parse_power(power, d)
     rng = np.random.default_rng(rng)
@@ -80,23 +76,21 @@ def _hopkins(
         msg = "X must contain only finite values; found NaN or inf."
         raise ValueError(msg)
 
+    implicit_frame = isinstance(frame, str)
+    frame: SamplingFrame = resolve_frame(X, frame)
+
     boxsize = None
     if toroidal:
-        X = X - lower
-        lower, upper = np.zeros(d), upper - lower
-        boxsize = np.nextafter(upper, np.inf)
+        X, frame, boxsize = _apply_toroidal_topology(X, frame)
 
-    if frame != "bbox":
-        X_in = X[np.all((lower <= X) & (upper >= X), axis=1)]
-        if toroidal and len(X_in) < len(X):
-            msg = "Points must not be outside the frame in toroidal topology."
-            raise ValueError(msg)
-    else:
-        X_in = X
+    X_in = X if implicit_frame else X[frame.contains(X)]
+    if toroidal and len(X_in) < len(X):
+        msg = "Points must not be outside the frame in toroidal topology."
+        raise ValueError(msg)
 
     m = _parse_m(m, len(X_in))
 
-    null_sample = rng.uniform(lower, upper, size=(m, d))
+    null_sample = frame.sample(m, rng)
     data_sample = rng.choice(X_in, size=m, replace=False, axis=0)
 
     tree = KDTree(X, boxsize=boxsize)
@@ -107,6 +101,23 @@ def _hopkins(
     w_sum = np.sum(w**power)
 
     return float(u_sum / (u_sum + w_sum)), m
+
+
+def _apply_toroidal_topology(
+    X: FloatArray2D, frame: SamplingFrame
+) -> tuple[FloatArray2D, SamplingFrame, FloatArray1D]:
+    if not isinstance(frame, Box):
+        msg = "toroidal topology requires a rectangular frame"
+        raise TypeError(msg)
+
+    X = X - frame.lower
+    frame = Box(
+        np.zeros_like(frame.lower),
+        frame.upper - frame.lower,
+        dim=X.shape[1],
+    )
+
+    return X, frame, np.nextafter(frame.upper, np.inf)
 
 
 def _validate_shape(X: FloatArray) -> int:
@@ -140,47 +151,6 @@ def _parse_m(m: int | float, n: int) -> int:
 
     msg = f"m must be int or float; got {type(m).__name__}."
     raise TypeError(msg)
-
-
-def _parse_frame(
-    X: FloatArray2D, frame: Frame
-) -> tuple[FloatArray1D, FloatArray1D]:
-    if frame == "bbox":
-        return X.min(axis=0), X.max(axis=0)
-
-    if isinstance(frame, (str, bytes)) or not isinstance(
-        frame, (Sequence, np.ndarray)
-    ):
-        msg = (
-            "frame must be 'bbox' or a pair of bounds (lower, upper); "
-            f"got {type(frame).__name__}."
-        )
-        raise TypeError(msg)
-
-    if len(frame) != 2:
-        msg = (
-            "frame must be a pair of bounds (lower, upper); "
-            f"got {len(frame)} elements."
-        )
-        raise ValueError(msg)
-
-    lower, upper = cast("tuple[ArrayLike, ArrayLike]", frame)
-    lower = np.asarray(lower, dtype=float)
-    upper = np.asarray(upper, dtype=float)
-
-    msg = "lower and upper bounds must each be broadcastable to shape (d,)."
-    try:
-        shape = np.broadcast_shapes(lower.shape, upper.shape, (X.shape[1],))
-    except ValueError:
-        raise ValueError(msg) from None
-    if shape != (X.shape[1],):
-        raise ValueError(msg)
-
-    if np.any(lower > upper):
-        msg = "lower bounds must be less than upper bounds."
-        raise ValueError(msg)
-
-    return lower, upper
 
 
 def _parse_toroidal(toroidal: bool) -> bool:  # noqa: FBT001

@@ -76,12 +76,12 @@ def test_frame_must_be_a_pair(hopkins_func, frame):
 
 @pytest.mark.parametrize("X", [X, np.empty((3, 2))])
 def test_frame_must_be_broadcastable(hopkins_func, X):
-    with pytest.raises(ValueError, match=r"broadcastable to shape \(d,\)"):
+    with pytest.raises(ValueError, match=r"each be scalar or match the data"):
         hopkins_func(X, frame=(0, np.ones(3)))
 
 
 def test_frame_upper_bounds_must_be_feasible(hopkins_func):
-    with pytest.raises(ValueError, match=r"lower bounds must be less"):
+    with pytest.raises(ValueError, match=r"lower bounds must be lower"):
         hopkins_func(X, frame=(1, 0))
 
 
