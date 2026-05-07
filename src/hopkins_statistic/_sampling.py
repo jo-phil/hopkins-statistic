@@ -107,7 +107,7 @@ class ConvexHull(SamplingFrame):
 
 
 def resolve_frame(X: FloatArray2D, frame: Frame) -> SamplingFrame:
-    rule = "frame must be 'bbox' or a pair of bounds (lower, upper)"
+    rule = "frame must be 'bbox', 'hull', or a pair of bounds (lower, upper)"
 
     match frame:
         case "bbox":
