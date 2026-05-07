@@ -70,7 +70,8 @@ for interpreting $H$.
 - The **sampling frame** defaults to the axis-aligned bounding box 
   of `X`. A known rectangular frame can be specified using the `frame`
   parameter. If the underlying sampling frame is not aligned with the
-  coordinate axes, `X` may be transformed beforehand.
+  coordinate axes, `frame` can be set to `'hull'` for using the convex
+  hull of `X`.
 
 - To mitigate **edge effects**, e.g., when events may also occur outside
   the sampling frame, periodic boundary conditions can be applied with
