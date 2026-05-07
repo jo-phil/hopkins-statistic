@@ -95,6 +95,12 @@ def test_toroidal_must_be_bool(hopkins_func):
         hopkins_func(X, toroidal=1)
 
 
+def test_toroidal_topology_requires_rectangular_frame(hopkins_func):
+    X = [[0, 0], [0, 1], [1, 1]]  # Qhull requires at least 2D data.
+    with pytest.raises(ValueError, match=r"requires a rectangular frame"):
+        hopkins_func(X, frame="hull", toroidal=True)
+
+
 @pytest.mark.parametrize("power", [True, "1"])
 def test_power_must_be_numeric(power):
     with pytest.raises(TypeError, match=r"power must be a real number"):

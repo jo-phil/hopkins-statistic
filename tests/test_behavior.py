@@ -1,11 +1,13 @@
 import itertools
 from copy import deepcopy
+from unittest.mock import patch
 
 import numpy as np
 import pytest
 from scipy.stats import beta
 
 from hopkins_statistic import hopkins, hopkins_test
+from hopkins_statistic._sampling import ConvexHull
 
 N, D = 100, 2  # smallest reasonable shape for behavioral tests
 
@@ -13,7 +15,7 @@ N, D = 100, 2  # smallest reasonable shape for behavioral tests
 @pytest.mark.slow
 @pytest.mark.parametrize("d", [2, 3, 5], ids=lambda val: f"d={val}")
 @pytest.mark.parametrize("edge_correction", [None, "buffer", "toroidal"])
-def test_null(d, edge_correction, rng):
+def test_beta_moments_under_null(d, edge_correction, rng):
     m = N // 10
 
     # Using buffer zones to correct for edge effects, specify a frame that
@@ -31,6 +33,20 @@ def test_null(d, edge_correction, rng):
 
     assert np.mean(Hs) == pytest.approx(0.5, abs=tol)
     assert np.std(Hs) == pytest.approx(beta.std(m, m), abs=tol)
+
+
+@pytest.mark.parametrize("d", [2, 3, 5], ids=lambda val: f"d={val}")
+def test_beta_moments_under_null_in_convex_hull(d, rng):
+    hull = ConvexHull(rng.normal(size=(2**d, d)))
+    X = hull.sample(N, rng)
+
+    with patch(  # Avoid recomputing the hull every iteration
+        "hopkins_statistic._statistic.resolve_frame", new=lambda _, __: hull
+    ):
+        Hs = [hopkins(X, m=10, frame="hull", rng=rng) for _ in range(1000)]
+
+    assert np.mean(Hs) == pytest.approx(0.5, abs=0.05)
+    assert np.std(Hs) == pytest.approx(beta.std(10, 10), abs=0.05)
 
 
 @pytest.mark.parametrize("seed", range(10))
@@ -85,6 +101,18 @@ def test_toroidal_vertices(rng):
     X = list(itertools.product([0, 1], repeat=7))
     assert hopkins(X, toroidal=False, rng=rng) < 0.3
     assert hopkins(X, toroidal=True) == 1.0
+
+
+def test_convex_hull_on_rotated_data(rng):
+    X = rng.uniform(size=(N, D))
+
+    # Rotate X to be clustered in its bounding box but not in its convex hull
+    c, s = np.cos(np.radians(45)), np.sin(np.radians(45))
+    R = np.array([[c, -s], [s, c]])
+    X = X @ R.T
+
+    assert hopkins(X, rng=42) > 0.7
+    assert 0.4 < hopkins(X, frame="hull", rng=42) < 0.6
 
 
 def test_input_immutability(toroidal, rng):

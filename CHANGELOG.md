@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `'hull'` option to the `frame` parameter for sampling from the convex hull.
+
 ### Removed
 
 - `typing_extensions` dependency for Python 3.11.

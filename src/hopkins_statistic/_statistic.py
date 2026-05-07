@@ -36,6 +36,7 @@ def hopkins(
         frame: Area sampling frame. Must be one of:
 
             - Literal `'bbox'` to use the axis-aligned bounding box of `X`, or
+            - Literal `'hull'` to use the convex hull of `X`, or
             - Pair `(lower, upper)` defining the bounds of a rectangular
               sampling frame. Both must be broadcastable to shape `(d,)`.
               While data points outside a given frame are ignored during
