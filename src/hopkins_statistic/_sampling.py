@@ -107,6 +107,8 @@ class ConvexHull(SamplingFrame):
 
 
 def resolve_frame(X: FloatArray2D, frame: Frame) -> SamplingFrame:
+    rule = "frame must be 'bbox' or a pair of bounds (lower, upper)"
+
     match frame:
         case "bbox":
             return Box.from_data(X)
@@ -118,14 +120,8 @@ def resolve_frame(X: FloatArray2D, frame: Frame) -> SamplingFrame:
             return Box(lower, upper, dim=X.shape[1])
 
         case Sequence() | np.ndarray() if not isinstance(frame, str | bytes):
-            msg = (
-                "frame must be 'bbox' or a pair of bounds (lower, upper); "
-                f"got {type(frame).__name__} of length {len(frame)}."
-            )
+            msg = f"{rule}; got {type(frame).__name__} of length {len(frame)}."
             raise ValueError(msg)
         case _:
-            msg = (
-                "frame must be 'bbox' or a pair of bounds (lower, upper); "
-                f"got {type(frame).__name__}."
-            )
+            msg = f"{rule}; got {type(frame).__name__}."
             raise TypeError(msg)
