@@ -13,11 +13,14 @@ hopkins-statistic is a library for computing the Hopkins statistic to assess
 clustering tendency (also known as clusterability) by testing for departure from
 complete spatial randomness (CSR) in point patterns.
 
-This implementation defaults to the Cross and Jain (1982) formulation, raising
+This implementation defaults to the [Cross and Jain (1982)] formulation, raising
 distances to the power of the data dimension. In two dimensions, this matches
-the original definition by Hopkins and Skellam (1954). Because the resulting
+the original definition by [Hopkins and Skellam (1954)]. Because the resulting
 statistic follows a beta distribution under the null hypothesis, *p*-values can
-be computed analytically.
+be computed analytically, avoiding the need for Monte Carlo simulations.
+
+[Cross and Jain (1982)]: https://doi.org/10.1016/S1474-6670(17)63365-2 "Measurement of Clustering Tendency"
+[Hopkins and Skellam (1954)]: https://doi.org/10.1093/oxfordjournals.aob.a083391 "A New Method for determining the Type of Distribution of Plant Individuals"
 
 [//]: # (--8<-- [end:opener])
 
