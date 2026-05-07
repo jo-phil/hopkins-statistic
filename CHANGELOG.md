@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+[//]: # (--8<-- [start:released])
+
+## [0.6.0] - 2026-05-07
+
 ### Added
 
 - `'hull'` option to the `frame` parameter for sampling from the convex hull.
@@ -14,8 +18,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 - `typing_extensions` dependency for Python 3.11.
-
-[//]: # (--8<-- [start:released])
 
 ## [0.5.0] - 2026-03-27
 
@@ -71,7 +73,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `hopkins()` to compute the Hopkins statistic for $d$-dimensional data
   following Cross & Jain (1982), using a (hyper-)rectangular sampling frame.
 
-[Unreleased]: https://github.com/jo-phil/hopkins-statistic/compare/0.5.0...HEAD
+[Unreleased]: https://github.com/jo-phil/hopkins-statistic/compare/0.6.0...HEAD
+[0.6.0]: https://github.com/jo-phil/hopkins-statistic/releases/tag/0.6.0
 [0.5.0]: https://github.com/jo-phil/hopkins-statistic/releases/tag/0.5.0
 [0.4.0]: https://github.com/jo-phil/hopkins-statistic/releases/tag/0.4.0
 [0.3.1]: https://github.com/jo-phil/hopkins-statistic/releases/tag/0.3.1
