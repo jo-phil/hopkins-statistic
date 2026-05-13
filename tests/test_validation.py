@@ -62,6 +62,11 @@ def test_m_float_must_satisfy_bounds(hopkins_func, m):
         hopkins_func(X, m=m)
 
 
+@pytest.mark.parametrize("frame", ["bbox", "hull", (0, 1), np.array([0, 1])])
+def test_valid_frame_is_accepted(frame):
+    assert 0 < hopkins(X, frame=frame) < 1
+
+
 @pytest.mark.parametrize("frame", ["box", 1])
 def test_frame_must_be_of_valid_type(hopkins_func, frame):
     with pytest.raises(TypeError, match=r"must be 'bbox', 'hull', or a pair"):

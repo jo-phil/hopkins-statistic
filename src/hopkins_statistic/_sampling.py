@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from collections.abc import Sequence
 from typing import Literal, TypeAlias
 
 import numpy as np
@@ -110,17 +109,17 @@ def resolve_frame(X: FloatArray2D, frame: Frame) -> SamplingFrame:
     rule = "frame must be 'bbox', 'hull', or a pair of bounds (lower, upper)"
 
     match frame:
-        case "bbox":
+        case str("bbox"):
             return Box.from_data(X)
-        case "hull":
+        case str("hull"):
             # Qhull requires at least 2D data; the bbox is equivalent in 1D.
             return ConvexHull(X) if X.shape[1] > 1 else Box.from_data(X)
 
-        case [lower, upper]:
-            return Box(lower, upper, dim=X.shape[1])
+        case ([*_] | np.ndarray()) as bounds if len(bounds) == 2:
+            return Box(bounds[0], bounds[1], dim=X.shape[1])
 
-        case Sequence() | np.ndarray() if not isinstance(frame, str | bytes):
-            msg = f"{rule}; got {type(frame).__name__} of length {len(frame)}."
+        case ([*_] | np.ndarray()) as bad:
+            msg = f"{rule}; got {type(bad).__name__} of length {len(bad)}."
             raise ValueError(msg)
         case _:
             msg = f"{rule}; got {type(frame).__name__}."
