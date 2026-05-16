@@ -18,6 +18,7 @@ from ._typing import (
 Frame: TypeAlias = (
     Literal["bbox", "hull"] | tuple[ArrayLike, ArrayLike] | ArrayLike
 )
+"""Sampling frame for [`hopkins`][] and [`hopkins_test`][]."""
 
 
 class SamplingFrame(ABC):

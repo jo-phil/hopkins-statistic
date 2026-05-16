@@ -13,12 +13,14 @@ FloatArray3D: TypeAlias = np.ndarray[
 ]
 
 # See SPEC 7: https://scientific-python.org/specs/spec-0007/
-RNGLike: TypeAlias = Generator | BitGenerator
-SeedLike: TypeAlias = (
-    int
+ToRNG: TypeAlias = (
+    Generator
+    | BitGenerator
+    | int
     | np.integer[Any]
     | Sequence[int]
     | SeedSequence
     | np.ndarray[Any, np.dtype[np.integer[Any]]]
+    | None
 )
-ToRNG: TypeAlias = RNGLike | SeedLike | None
+"""Random number generator or seed to be passed to [`numpy.random.default_rng`][]."""

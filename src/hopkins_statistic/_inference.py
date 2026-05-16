@@ -8,6 +8,7 @@ from ._statistic import _hopkins
 from ._typing import ToRNG
 
 Alternative: TypeAlias = Literal["clustered", "regular", "two-sided"]
+"""Alternative hypothesis for [`hopkins_test`][]."""
 
 
 class HopkinsTestResult(NamedTuple):

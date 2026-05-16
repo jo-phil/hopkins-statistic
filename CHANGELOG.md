@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `Alternative`, `Frame`, and `ToRNG` type aliases for function parameters.
+
 ### Changed
 
 - `frame='hull'` sampling for improved performance, changing seeded results.
