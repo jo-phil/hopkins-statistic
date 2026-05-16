@@ -9,7 +9,7 @@ from scipy.stats import beta
 from hopkins_statistic import hopkins, hopkins_test
 from hopkins_statistic._sampling import ConvexHull
 
-N, D = 100, 2  # smallest reasonable shape for behavioral tests
+N, D = 200, 2  # shape for behavioral tests balancing speed and stability
 
 
 @pytest.mark.slow
