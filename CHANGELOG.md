@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+[//]: # (--8<-- [start:released])
+
+## [0.7.0] - 2026-05-16
+
 ### Added
 
 - `Alternative`, `Frame`, and `ToRNG` type aliases for function parameters.
@@ -14,8 +18,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - `frame='hull'` sampling for improved performance, changing seeded results.
-
-[//]: # (--8<-- [start:released])
 
 ## [0.6.1] - 2026-05-13
 
@@ -87,7 +89,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `hopkins()` to compute the Hopkins statistic for $d$-dimensional data
   following Cross & Jain (1982), using a (hyper-)rectangular sampling frame.
 
-[Unreleased]: https://github.com/jo-phil/hopkins-statistic/compare/0.6.1...HEAD
+[Unreleased]: https://github.com/jo-phil/hopkins-statistic/compare/0.7.0...HEAD
+[0.7.0]: https://github.com/jo-phil/hopkins-statistic/releases/tag/0.7.0
 [0.6.1]: https://github.com/jo-phil/hopkins-statistic/releases/tag/0.6.1
 [0.6.0]: https://github.com/jo-phil/hopkins-statistic/releases/tag/0.6.0
 [0.5.0]: https://github.com/jo-phil/hopkins-statistic/releases/tag/0.5.0
