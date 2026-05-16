@@ -4,7 +4,7 @@ from typing import Literal, TypeAlias
 import numpy as np
 from numpy.typing import ArrayLike
 from scipy.spatial import ConvexHull as ScipyConvexHull
-from scipy.spatial import Delaunay, QhullError
+from scipy.spatial import QhullError
 from scipy.special import logsumexp
 
 from ._typing import (
@@ -72,16 +72,20 @@ class ConvexHull(SamplingFrame):
 
     def __init__(self, X: FloatArray2D) -> None:
         try:
-            vertices = X[ScipyConvexHull(X).vertices]
-            simplices = vertices[Delaunay(vertices).simplices]
+            hull = ScipyConvexHull(X)
         except QhullError as e:
             msg = "X must span a full-dimensional convex hull"
             raise ValueError(msg) from e
 
+        # Triangulate the hull by coning facets to an interior point.
+        facets = X[hull.simplices]
+        center = X[hull.vertices].mean(axis=0)
+        simplices = np.insert(facets, 0, center, axis=1)
+
         # Simplex volumes are abs(det(simplex_edges)) / dim!.
         # The common divisor cancels out when normalizing probabilities.
         # Perform operations in log-space for numerical stability.
-        simplex_edges = simplices[:, 1:, :] - simplices[:, :1, :]
+        simplex_edges = facets - center
         _, logabsdet = np.linalg.slogdet(simplex_edges)
         log_simplex_probs = logabsdet - logsumexp(logabsdet)
 
