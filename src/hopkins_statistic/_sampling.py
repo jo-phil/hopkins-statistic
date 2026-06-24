@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Literal, TypeAlias
+from typing import TYPE_CHECKING, Literal, TypeAlias, cast
 
 import numpy as np
 from numpy.typing import ArrayLike
@@ -14,6 +14,10 @@ from ._typing import (
     FloatArray3D,
     ToRNG,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+    from typing import Any
 
 Frame: TypeAlias = (
     Literal["bbox", "hull"] | tuple[ArrayLike, ArrayLike] | ArrayLike
@@ -121,6 +125,8 @@ def resolve_frame(X: FloatArray2D, frame: Frame) -> SamplingFrame:
             return ConvexHull(X) if X.shape[1] > 1 else Box.from_data(X)
 
         case ([*_] | np.ndarray()) as bounds if len(bounds) == 2:
+            # Make subscriptability explicit for type checkers.
+            bounds = cast("Sequence[Any] | np.ndarray", bounds)
             return Box(bounds[0], bounds[1], dim=X.shape[1])
 
         case ([*_] | np.ndarray()) as bad:
