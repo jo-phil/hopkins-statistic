@@ -8,6 +8,7 @@ updates:
     cooldown:
       default-days: 7
     open-pull-requests-limit: 1
+    versioning-strategy: "increase"
     allow:
       - dependency-type: "development"
     groups:
