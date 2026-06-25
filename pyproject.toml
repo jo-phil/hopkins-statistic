@@ -47,18 +47,18 @@ build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
-    "pytest>=9.0.2",
-    "pytest-cov>=7.0.0",
-    "pytest-examples>=0.0.18",
-    "ruff>=0.14.8",
-    "scipy-stubs>=1.16.3.3",
-    "ty>=0.0.29",
+    "pytest==9.0.2",
+    "pytest-cov==7.0.0",
+    "pytest-examples==0.0.18",
+    "ruff==0.14.8",
+    "scipy-stubs==1.16.3.3",
+    "ty==0.0.29",
 ]
 docs = [
-    "changelog-slugs>=0.1.0",
-    "markdown-exec>=1.12.1",
-    "mkdocstrings-python>=2.0.3",
-    "zensical>=0.0.32",
+    "changelog-slugs==0.1.0",
+    "markdown-exec==1.12.1",
+    "mkdocstrings-python==2.0.3",
+    "zensical==0.0.32",
 ]
 
 [tool.pytest]
