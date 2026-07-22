@@ -50,15 +50,15 @@ dev = [
     "pytest==9.1.1",
     "pytest-cov==7.1.0",
     "pytest-examples==0.0.18",
-    "ruff==0.15.20",
+    "ruff==0.15.21",
     "scipy-stubs==1.17.1.5",
-    "ty==0.0.56",
+    "ty==0.0.59",
 ]
 docs = [
     "changelog-slugs==0.2.0",
     "markdown-exec==1.12.3",
     "mkdocstrings-python==2.0.5",
-    "zensical==0.0.47",
+    "zensical==0.0.50",
 ]
 
 [tool.pytest]
