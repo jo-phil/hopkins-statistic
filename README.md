@@ -32,6 +32,7 @@ pip install hopkins-statistic
 
 ## Usage
 
+<!-- fmt:off -->
 ```python
 import numpy as np
 from hopkins_statistic import hopkins
@@ -43,6 +44,7 @@ statistic = hopkins(X, rng=rng)
 print(f"{statistic:.3f}")
 #> 0.514
 ```
+<!-- fmt:on -->
 
 ## License
 
