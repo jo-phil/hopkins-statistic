@@ -50,15 +50,15 @@ dev = [
     "pytest==9.1.1",
     "pytest-cov==7.1.0",
     "pytest-examples==0.0.18",
-    "ruff==0.15.21",
+    "ruff==0.16.0",
     "scipy-stubs==1.17.1.5",
-    "ty==0.0.59",
+    "ty==0.0.63",
 ]
 docs = [
     "changelog-slugs==0.2.0",
     "markdown-exec==1.12.3",
     "mkdocstrings-python==2.0.5",
-    "zensical==0.0.50",
+    "zensical==0.0.51",
 ]
 
 [tool.pytest]
@@ -84,6 +84,7 @@ line-length = 79
 select = ["ALL"]
 ignore = [
     "COM812",   # missing-trailing-comma, handled by formatter
+    "CPY001",   # missing-copyright-notice
     "E501",     # line-too-long, handled by formatter
     "PLR0913",  # too-many-arguments, conflicts with a flat API design
     "PLR2004",  # magic-value-comparison, considers 2 a magic number
