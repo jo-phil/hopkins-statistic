@@ -6,7 +6,7 @@ from numpy.typing import ArrayLike
 from scipy.spatial import KDTree
 
 from ._sampling import Box, Frame, SamplingFrame, resolve_frame
-from ._typing import FloatArray, FloatArray1D, FloatArray2D, ToRNG
+from ._typing import FloatArray, ToRNG
 
 
 def hopkins(
@@ -105,8 +105,8 @@ def _hopkins(
 
 
 def _apply_toroidal_topology(
-    X: FloatArray2D, frame: SamplingFrame
-) -> tuple[FloatArray2D, SamplingFrame, FloatArray1D]:
+    X: FloatArray, frame: SamplingFrame
+) -> tuple[FloatArray, SamplingFrame, FloatArray]:
     if not isinstance(frame, Box):
         msg = "toroidal topology requires a rectangular frame"
         raise ValueError(msg)  # noqa: TRY004

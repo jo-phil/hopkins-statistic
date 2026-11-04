@@ -7,13 +7,7 @@ from scipy.spatial import ConvexHull as ScipyConvexHull
 from scipy.spatial import QhullError
 from scipy.special import logsumexp
 
-from ._typing import (
-    BoolArray1D,
-    FloatArray1D,
-    FloatArray2D,
-    FloatArray3D,
-    ToRNG,
-)
+from ._typing import BoolArray, FloatArray, ToRNG
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -27,15 +21,15 @@ Frame: TypeAlias = (
 
 class SamplingFrame(ABC):
     @abstractmethod
-    def contains(self, X: FloatArray2D) -> BoolArray1D: ...
+    def contains(self, X: FloatArray) -> BoolArray: ...
 
     @abstractmethod
-    def sample(self, m: int, rng: ToRNG) -> FloatArray2D: ...
+    def sample(self, m: int, rng: ToRNG) -> FloatArray: ...
 
 
 class Box(SamplingFrame):
-    lower: FloatArray1D
-    upper: FloatArray1D
+    lower: FloatArray
+    upper: FloatArray
 
     def __init__(
         self, lower: ArrayLike, upper: ArrayLike, *, dim: int
@@ -58,24 +52,24 @@ class Box(SamplingFrame):
         self.upper = upper
         self.dim = dim
 
-    def contains(self, X: FloatArray2D) -> BoolArray1D:
+    def contains(self, X: FloatArray) -> BoolArray:
         return np.all((self.lower <= X) & (self.upper >= X), axis=1)
 
-    def sample(self, m: int, rng: ToRNG) -> FloatArray2D:
+    def sample(self, m: int, rng: ToRNG) -> FloatArray:
         rng = np.random.default_rng(rng)
         return rng.uniform(self.lower, self.upper, size=(m, self.dim))
 
     @classmethod
-    def from_data(cls, X: FloatArray2D) -> "Box":
+    def from_data(cls, X: FloatArray) -> "Box":
         return cls(np.min(X, axis=0), np.max(X, axis=0), dim=X.shape[1])
 
 
 class ConvexHull(SamplingFrame):
-    simplices: FloatArray3D
-    simplex_probs: FloatArray1D
+    simplices: FloatArray
+    simplex_probs: FloatArray
     dim: int
 
-    def __init__(self, X: FloatArray2D) -> None:
+    def __init__(self, X: FloatArray) -> None:
         try:
             hull = ScipyConvexHull(X)
         except QhullError as e:
@@ -98,10 +92,10 @@ class ConvexHull(SamplingFrame):
         self.simplex_probs = np.exp(log_simplex_probs)
         self.dim = X.shape[1]
 
-    def contains(self, X: FloatArray2D) -> BoolArray1D:
+    def contains(self, X: FloatArray) -> BoolArray:
         raise NotImplementedError
 
-    def sample(self, m: int, rng: ToRNG) -> FloatArray2D:
+    def sample(self, m: int, rng: ToRNG) -> FloatArray:
         rng = np.random.default_rng(rng)
 
         # Sample simplices weighted by volume with replacement.
@@ -114,7 +108,7 @@ class ConvexHull(SamplingFrame):
         return np.einsum("ij,ijd->id", barycentric_coords, sampled_simplices)
 
 
-def resolve_frame(X: FloatArray2D, frame: Frame) -> SamplingFrame:
+def resolve_frame(X: FloatArray, frame: Frame) -> SamplingFrame:
     rule = "frame must be 'bbox', 'hull', or a pair of bounds (lower, upper)"
 
     match frame:
